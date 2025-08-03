@@ -1,0 +1,17 @@
+{
+    "name": "Thodoris",
+    "email": "thodoris@gmail.com",
+    "password": "Test123@",
+    "day": "17",
+    "month": "January",
+    "year": "1998",
+    "firstName": "Thodoris",
+    "lastName": "Tester",
+    "company": "Google",
+    "address": "15 Alpaca Way",
+    "country": "United States",
+    "state": "California",
+    "city": "Santa Ana",
+    "zipcode": "92704",
+    "mobile": "123456789"
+}
