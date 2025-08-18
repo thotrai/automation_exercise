@@ -24,7 +24,7 @@ export default class CartPage {
         await expect(row).toBeVisible();
     }
     // many it will need changes
-    async expectRandomProductInCart() {
+    async expectRandomProductInCart(productId: number) {
         const row = this.page.locator(`#product-${productId}`);
         await row.scrollIntoViewIfNeeded();
         await expect(row).toBeVisible();

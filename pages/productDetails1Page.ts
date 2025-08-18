@@ -47,4 +47,21 @@ export default class ProductDetails1Page {
         expect(this.page.getByText('Thank you for your review.')).toBeVisible();
     }
 
+    async clickAddToCart() {
+        await this.page.getByRole('button', {name: 'Add to cart'}).click();
+    }
+
+    async increaseQuantityNTimes(times: number) {
+        const quantity = this.page.locator('#quantity');
+        await quantity.clear();
+        await quantity.type(`${times}`);
+    }
+
+    // needs to be transfered
+    async clickViewCart() {
+        const modal = this.page.locator(".modal-content");
+        expect(modal).toBeVisible();
+        await this.page.click(`//p[@class='text-center']//a[@href='/view_cart']`);
+    }
+
 }
