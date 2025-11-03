@@ -36,7 +36,7 @@ export default class HomePage {
     }
 
     async clickDeleteAccount() {
-        await this.page.click(`//a[@href='/delete']`);
+        await this.page.click(`//a[@href='/delete_account']`);
     }
 
     async clickCart() {

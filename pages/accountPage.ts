@@ -9,11 +9,6 @@ export default class AccountPage {
         expect(this.page.locator(`//b[normalize-space()='Account Created!']`)).toBeVisible();
     }
 
-    async expectAccountDeleted() {
-        expect(this.page).toHaveURL('delete_account');
-        expect(this.page.locator(`//b[normalize-space()='Account Deleted!']`)).toBeVisible();
-    }
-
     async clickContinue() {
         await this.page.locator(`//div//a[@data-qa='continue-button']`).click();
     }
