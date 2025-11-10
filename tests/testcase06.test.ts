@@ -11,10 +11,12 @@ test('Test Case 6: Contact Us Form', async ({ page }) => {
     await homePage.expectHomePageToBeVisible();
     await homePage.clickContactUs();
 
+    await page.waitForTimeout(2000);
     await contactPage.expectContactPageToBeVisiable();
     await contactPage.typeNameEmailSubjectMessage(data.name, data.email, "Test", "This is a test message.");
     await contactPage.uploadFile();
 
+    // confirm dialog
     page.on('dialog', async (dialog) => {
         expect(dialog.type()).toContain('confirm');
         expect(dialog.message()).toContain('Press OK');

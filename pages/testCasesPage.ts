@@ -15,7 +15,7 @@ export default class TestCasesPage {
         for (let i = 0; i < count; i++) {
             await expect(testCases.nth(i)).toBeVisible();
         }
-        console.log(`Found ${count} test cases.`);
+        console.log(`Number of test cases: ${count}`);
         expect(count).toEqual(26);
     }
 

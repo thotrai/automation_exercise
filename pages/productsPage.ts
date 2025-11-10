@@ -27,7 +27,7 @@ export default class ProductsPage {
         for (let i = 0; i < count; i++) {
             await expect(products.nth(i)).toBeVisible();
         } 
-        console.log(`Found ${count} products.`);
+        console.log(`Number of products: ${count}`);
     }
 
     async hoverOnProduct(number: number) {

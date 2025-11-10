@@ -52,17 +52,7 @@ export default class HomePage {
     }
     
     async expectLoggedInAs(name: string) {
-        await expect(this.page.locator(`text=Logged in as ${name}`)).toBeVisible();
-    }
-
-    async subscribe(email: string) {
-        await this.page.locator(`//input[@id='susbscribe_email']`).type(email);
-        await this.page.click(`//button[@id='subscribe']`);
-    }
-
-    async expectSubscriptionMesssageToBeVisible() {
-        expect(this.page.locator(`//div[@id='success-subscribe']`)).toBeVisible();
-        expect(this.page.locator(`//div[@id='success-subscribe']`)).toContainText('You have been successfully subscribed!');
+        await expect(this.page.getByText(`Logged in as ${name}`)).toBeVisible();
     }
 
     async scrollToBottom() {
