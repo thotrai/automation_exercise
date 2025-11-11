@@ -4,6 +4,10 @@ export default class Subscription {
 
     constructor(public page: Page) {};
 
+    async expectSubscriptionToBeVisible() {
+        expect(this.page.getByText('Subscription')).toBeVisible();
+    }
+
     async scrollToFooter() {
         await this.page.locator('#footer').scrollIntoViewIfNeeded();
     }

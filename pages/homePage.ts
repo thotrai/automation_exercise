@@ -55,28 +55,6 @@ export default class HomePage {
         await expect(this.page.getByText(`Logged in as ${name}`)).toBeVisible();
     }
 
-    async scrollToBottom() {
-        await this.page.evaluate(() => {
-            window.scrollTo(0, document.body.scrollHeight);
-        });
-    }
-
-    async scrollToTop() {
-        await this.page.evaluate(() => {
-            window.scrollTo(0, 0);
-        });
-        await this.page.waitForFunction(() => window.scrollY === 0);
-    }
-
-    async expectSubscriptionToBeVisible() {
-        expect(this.page.getByText('Subscription')).toBeVisible();
-    }
-
-    async clickArrow() {
-        await this.page.click('#scrollUp');
-        await this.page.waitForFunction(() => window.scrollY === 0);
-    }
-
     async expectFullFledgedTextToBeVisible() {
         const text = this.page.getByText('Full-Fledged practice website for Automation Engineers');
         expect(text.first()).toBeVisible();
