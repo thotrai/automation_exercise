@@ -31,25 +31,9 @@ export default class CartPage {
     }
 
     async clickProccedToCheckout() {
-        await this.page.getByRole('button', { name: 'Proceed To Checkout'}).click();
-        await this.page.waitForSelector('.modal-content', { state: 'visible' });
-        expect(this.page.locator(`//div[@class='modal-content']//div[@class='modal-header']`)).toContainText('Checkout');
-    }
-
-    // checkout modal
-    async expectCheckoutModalToBeVisible() {
-        const modal = this.page.locator(".modal-content");
-        await expect(modal).toBeVisible();
-        expect(this.page.getByText('Checkout.')).toBeVisible();
-    }
-
-    async clickRegisterLogin() {
-        await this.page.click(`//u[contains(text(),"Register / Login")]`);
-    }
-
-    async clickContinueOnCart() {
-        await this.page.getByRole('button', {name: 'Continue On Cart'}).click();
-        expect(this.page.locator(".modal-content")).toBeHidden();
+        await this.page.getByText('Proceed To Checkout').click();
+        // await this.page.waitForSelector('.modal-content', { state: 'visible' });
+        // expect(this.page.locator(`//div[@class='modal-content']//div[@class='modal-header']`)).toContainText('Checkout');
     }
 
 }

@@ -65,9 +65,18 @@ export default class HomePage {
         expect(this.page.locator(`//div[@class='recommended_items']`)).toBeVisible();
     }
 
-    async clickAddToCart() {
-        const firstRecommendedProducts = this.page.locator('#recommended-item-carousel .item.active .add-to-cart').first();
-        await firstRecommendedProducts.click();
+    async clickAddToCartRecommended(number: number) {
+        const recommendedProduct = this.page.locator('#recommended-item-carousel .item.active .add-to-cart').nth(number-1);
+        await recommendedProduct.click();
     }
 
+    async hoverOnProduct(number: number) {
+        await this.page.locator(`//div[@class='single-products']`).nth(number-1).hover();
+    }
+
+    async clickAddToCartProduct(number: number) {
+        await this.page.locator(`//div[@class='overlay-content']//a[@class='btn btn-default add-to-cart']`).nth(number-1).click();
+        await this.page.waitForSelector('.modal-content', { state: 'visible' });
+        expect(this.page.locator(`//div[@class='modal-content']//div[@class='modal-header']`)).toContainText('Added!');
+    }
 }

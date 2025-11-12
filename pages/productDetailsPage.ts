@@ -92,11 +92,4 @@ export default class ProductDetailsPage {
         await quantity.type(`${times}`);
     }
 
-    // needs to be transfered to a new modalPage for common use???
-    async clickViewCart() {
-        const modal = this.page.locator(".modal-content");
-        await expect(modal).toBeVisible();
-        await this.page.click(`//u[contains(text(),"View Cart")]`);
-    }
-
 }
