@@ -28,8 +28,9 @@ export default class PaymentPage {
         await this.page.getByRole('button', { name: 'Pay and Confirm Order' }).click();
     }
 
+    // add a timeout when you create a function
     async expectSuccessMessage() {
-        expect(this.page.getByText('Your order has been placed successfully!')).toBeVisible();
+        expect(this.page.locator('Your order has been placed successfully!')).toBeVisible();
     }
 
 }

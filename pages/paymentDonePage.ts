@@ -10,7 +10,7 @@ export default class PaymentDonePage {
     }
 
     async expectCongratulationsMessageToBeVisible() {
-        expect(this.page.getByText('Congratulations! Your order has been confirmed!')).toBeVisible();
+        expect(this.page.getByText(`Congratulations! Your order has been confirmed!`)).toBeVisible();
     }
 
     async clickContinue() {

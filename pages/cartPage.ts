@@ -36,4 +36,17 @@ export default class CartPage {
         // expect(this.page.locator(`//div[@class='modal-content']//div[@class='modal-header']`)).toContainText('Checkout');
     }
 
+    async clickXbutton() {
+        await this.page.locator('a.cart_quantity_delete').click();
+    }
+
+    async expectProductHasBeenRemoved(productId: number) {
+        const row = this.page.locator(`#product-${productId}`);
+        await expect(row).toBeHidden();
+    }
+
+    async expectCartIsEmpty() {
+        expect(this.page.getByText('Cart is empty! Click here to buy products.')).toBeVisible();
+    }
+
 }
