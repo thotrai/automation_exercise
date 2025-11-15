@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 
-export default class Subscription {
+export default class Footer {
 
     constructor(public page: Page) {};
 

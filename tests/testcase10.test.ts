@@ -1,18 +1,18 @@
 import { test, expect } from '@playwright/test'; 
 import HomePage from '@pages/homePage'; 
-import Subscription from '@components/subscription';
+import Footer from '@components/footer';
 import * as data from '../test-data/users.json'; 
 
 test('Test Case 10: Verify Subscription in home page', async ({ page }) => {
     const homePage = new HomePage(page);
-    const subscription = new Subscription(page);
+    const footer = new Footer(page);
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
 
-    await subscription.scrollToFooter();
+    await footer.scrollToFooter();
 
-    await subscription.subscribe(data.email);
-    await subscription.expectSubscriptionMesssageToBeVisible();
+    await footer.subscribe(data.email);
+    await footer.expectSubscriptionMesssageToBeVisible();
 
 });

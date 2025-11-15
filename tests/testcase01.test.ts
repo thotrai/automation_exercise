@@ -4,6 +4,7 @@ import LoginPage from '@pages/loginPage';
 import SignupPage from '@pages/signupPage'; 
 import AccountPage from '@pages/accountPage'; 
 import DeleteAccountPage from '@pages/deleteAccountPage';
+import Header from '@components/header';
 import * as data from '../test-data/users.json'; 
 
 test('Test Case 1: Register User', async ({ page }) => { 
@@ -12,10 +13,11 @@ test('Test Case 1: Register User', async ({ page }) => {
   const signupPage = new SignupPage(page); 
   const accountPage = new AccountPage(page); 
   const deleteAccountPage = new DeleteAccountPage(page);
+  const header = new Header(page);
 
   await homePage.navigate();
   await homePage.expectHomePageToBeVisible();
-  await homePage.clickSignupLogin();
+  await header.clickSignupLogin();
 
   await loginPage.expectLoginPageToBeVisible();
   await loginPage.typeNameAndEmail(data.name, data.email); 
@@ -30,11 +32,12 @@ test('Test Case 1: Register User', async ({ page }) => {
   await accountPage.expectAccountCreated();
   await accountPage.clickContinue();
 
-  await homePage.expectLoggedInAs(data.name); 
-  await homePage.clickDeleteAccount(); 
+  await header.expectLoggedInAs(data.name); 
+  await header.clickDeleteAccount(); 
 
   await deleteAccountPage.expectAccountDeleted();
   await deleteAccountPage.clickContinue();
 
   await homePage.expectHomePageToBeVisible();
+  
 });

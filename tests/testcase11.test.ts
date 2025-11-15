@@ -1,23 +1,25 @@
 import { test, expect } from '@playwright/test'; 
 import HomePage from '@pages/homePage'; 
 import CartPage from '@pages/cartPage';
-import Subscription from '@components/subscription';
+import Footer from '@components/footer';
+import Header from '@components/header';
 import * as data from '../test-data/users.json'; 
 
 test('Test Case 11: Verify Subscription in Cart page', async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
-    const subscription = new Subscription(page);
+    const footer = new Footer(page);
+    const header = new Header(page);
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
-    await homePage.clickCart();
+    await header.clickCart();
 
     await cartPage.expectCartPageToBeVisible();
 
-    await subscription.scrollToFooter();
+    await footer.scrollToFooter();
 
-    await subscription.subscribe(data.email);
-    await subscription.expectSubscriptionMesssageToBeVisible();
+    await footer.subscribe(data.email);
+    await footer.expectSubscriptionMesssageToBeVisible();
 
 });

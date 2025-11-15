@@ -10,6 +10,7 @@ import AccountPage from '@pages/accountPage';
 import DeleteAccountPage from '@pages/deleteAccountPage';
 import PaymentPage from '@pages/paymentPage';
 import PaymentDonePage from '@pages/paymentDonePage';
+import Header from '@components/header';
 
 test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
     const homePage = new HomePage(page);
@@ -23,6 +24,7 @@ test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
     const deleteAccountPage = new DeleteAccountPage(page);
     const paymentPage = new PaymentPage(page);
     const paymentDonePage = new PaymentDonePage(page);
+    const header = new Header(page);
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
@@ -52,8 +54,8 @@ test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
     await accountPage.expectAccountCreated();
     await accountPage.clickContinue();
 
-    await homePage.expectLoggedInAs("User");
-    await homePage.clickCart();
+    await header.expectLoggedInAs("User");
+    await header.clickCart();
 
     await cartPage.expectCartPageToBeVisible();
     await cartPage.clickProccedToCheckout();    
@@ -78,7 +80,7 @@ test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
     await paymentDonePage.clickContinue();
 
     await homePage.expectHomePageToBeVisible();
-    await homePage.clickDeleteAccount(); 
+    await header.clickDeleteAccount(); 
 
     await deleteAccountPage.expectAccountDeleted();
     await deleteAccountPage.clickContinue();

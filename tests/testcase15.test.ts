@@ -3,30 +3,30 @@ import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
 import CheckoutPage from '@pages/checkoutPage';
-import CheckoutModal from '@components/checkoutModal';
 import LoginPage from '@pages/loginPage';
 import SignupPage from '@pages/signupPage';
 import AccountPage from '@pages/accountPage';
 import DeleteAccountPage from '@pages/deleteAccountPage';
 import PaymentPage from '@pages/paymentPage';
 import PaymentDonePage from '@pages/paymentDonePage';
+import Header from '@components/header';
 
 test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => {
     const homePage = new HomePage(page);
     const cartModal = new CartModal(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
-    const checkoutModal = new CheckoutModal(page);
     const loginPage = new LoginPage(page);
     const signupPage = new SignupPage(page);
     const accountPage = new AccountPage(page);
     const deleteAccountPage = new DeleteAccountPage(page);
     const paymentPage = new PaymentPage(page);
     const paymentDonePage = new PaymentDonePage(page);
+    const header = new Header(page);
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
-    await homePage.clickSignupLogin();
+    await header.clickSignupLogin();
 
     await loginPage.expectLoginPageToBeVisible();
     await loginPage.typeNameAndEmail("UserTC14","usertc14@qmail.com"); // update
@@ -41,7 +41,7 @@ test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => 
     await accountPage.expectAccountCreated();
     await accountPage.clickContinue();
 
-    await homePage.expectLoggedInAs("User");
+    await header.expectLoggedInAs("User");
     // Stylish Dress
     await homePage.hoverOnProduct(4);
     await homePage.clickAddToCartProduct(4); 
@@ -71,7 +71,7 @@ test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => 
     await paymentDonePage.clickContinue();
 
     await homePage.expectHomePageToBeVisible();
-    await homePage.clickDeleteAccount(); 
+    await header.clickDeleteAccount(); 
 
     await deleteAccountPage.expectAccountDeleted();
     await deleteAccountPage.clickContinue();

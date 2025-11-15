@@ -2,16 +2,18 @@ import { test } from '@playwright/test';
 import HomePage from '@pages/homePage'; 
 import ProductsPage from '@pages/productsPage'; 
 import ProductDetailsPage from '@pages/productDetailsPage';
+import Header from '@components/header';
 import * as data from '../test-data/users.json'; 
 
 test('Test Case 21: Add review on product', async ({ page }) => {
     const homePage = new HomePage(page);
     const productsPage = new ProductsPage(page);
     const productDetailsPage = new ProductDetailsPage(page);
+    const header = new Header(page);
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
-    await homePage.clickProducts();
+    await header.clickProducts();
 
     await productsPage.expectProductsPageToBeVisible();
     await productsPage.clickViewProduct(1);

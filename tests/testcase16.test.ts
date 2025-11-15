@@ -8,6 +8,7 @@ import LoginPage from '@pages/loginPage';
 import DeleteAccountPage from '@pages/deleteAccountPage';
 import PaymentPage from '@pages/paymentPage';
 import PaymentDonePage from '@pages/paymentDonePage';
+import Header from '@components/header';
 import * as data from '../test-data/users.json'; 
 
 test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => {
@@ -20,16 +21,17 @@ test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => 
     const deleteAccountPage = new DeleteAccountPage(page);
     const paymentPage = new PaymentPage(page);
     const paymentDonePage = new PaymentDonePage(page);
+    const header = new Header(page);
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
-    await homePage.clickSignupLogin();
+    await header.clickSignupLogin();
 
     await loginPage.expectLoginPageToBeVisible();
     await loginPage.typeEmailAndPassword(data.email, data.password); // user
     await loginPage.clickLoginButton();
 
-    await homePage.expectLoggedInAs(data.firstName); // user
+    await header.expectLoggedInAs(data.firstName); // user
     // Stylish Dress
     await homePage.hoverOnProduct(4);
     await homePage.clickAddToCartProduct(4); 
@@ -59,7 +61,7 @@ test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => 
     await paymentDonePage.clickContinue();
 
     await homePage.expectHomePageToBeVisible();
-    await homePage.clickDeleteAccount(); 
+    await header.clickDeleteAccount(); 
 
     await deleteAccountPage.expectAccountDeleted();
     await deleteAccountPage.clickContinue();
