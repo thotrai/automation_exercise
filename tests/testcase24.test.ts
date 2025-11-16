@@ -12,7 +12,7 @@ import PaymentPage from '@pages/paymentPage';
 import PaymentDonePage from '@pages/paymentDonePage';
 import Header from '@components/header';
 
-test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
+test('Test Case 24: Download Invoice after purchase order', async ({ page }) => {
     const homePage = new HomePage(page);
     const cartModal = new CartModal(page);
     const cartPage = new CartPage(page);
@@ -42,7 +42,7 @@ test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
     await checkoutModal.clickRegisterLogin();
 
     await loginPage.expectLoginPageToBeVisible();
-    await loginPage.typeNameAndEmail("UserTC14","usertc14@qmail.com"); // update
+    await loginPage.typeNameAndEmail("UserTC24c","usertc24c@qmail.com"); // update
     await loginPage.clickSignupButton();
 
     await signupPage.expectLoginPageToBeVisible();
@@ -77,6 +77,7 @@ test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
 
     await paymentDonePage.expectPaymentDonePageToBeVisible();
     await paymentDonePage.expectCongratulationsMessageToBeVisible();
+    await paymentDonePage.clickDownloadInvoice();
     await paymentDonePage.clickContinue();
 
     await homePage.expectHomePageToBeVisible();

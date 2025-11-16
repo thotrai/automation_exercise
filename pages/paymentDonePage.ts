@@ -5,12 +5,12 @@ export default class PaymentDonePage {
     constructor(public page: Page) {}
 
     async expectPaymentDonePageToBeVisible() {
-        expect(this.page).toHaveURL('payment_done');
-        expect(this.page.getByText('Order Placed!')).toBeVisible();
+        await expect(this.page).toHaveURL('/payment_done/1500');
+        await expect(this.page.getByText('Order Placed!')).toBeVisible();
     }
 
     async expectCongratulationsMessageToBeVisible() {
-        expect(this.page.getByText(`Congratulations! Your order has been confirmed!`)).toBeVisible();
+        await expect(this.page.getByText(`Congratulations! Your order has been confirmed!`)).toBeVisible();
     }
 
     async clickContinue() {
@@ -18,7 +18,18 @@ export default class PaymentDonePage {
     }
 
     async clickDownloadInvoice() {
-        await this.page.getByRole('link', { name: 'Download Invoice' }).click();
+        const [download] = await Promise.all([
+            this.page.waitForEvent('download'),
+            this.page.getByRole('link', { name: 'Download Invoice' }).click(),
+        ]);
+
+        // Verify suggested filename is not empty
+        const fileName = download.suggestedFilename();
+        expect(fileName).not.toBe('');
+        // Save the file
+        await download.saveAs('./downloads/' + fileName);
+
+        return fileName;
     }
 
 }

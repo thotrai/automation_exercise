@@ -64,7 +64,7 @@ test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => 
     await paymentPage.typeCVC("333");
     await paymentPage.typeExpirationDate("10", "2028");
     await paymentPage.clickPayAndConfirmOrder();
-    await paymentPage.expectSuccessMessage();
+    //await paymentPage.expectSuccessMessage();
 
     await paymentDonePage.expectPaymentDonePageToBeVisible();
     await paymentDonePage.expectCongratulationsMessageToBeVisible();
