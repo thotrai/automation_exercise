@@ -3,15 +3,12 @@ import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
 import Scrolling from '@utils/scrolling';
-import Header from '@components/header';
 
-// not readdy yet
 test('Test Case 22: Add to cart from Recommended items', async ({ page }) => {
     const homePage = new HomePage(page);
     const cartModal = new CartModal(page);
     const cartPage = new CartPage(page);
     const scrolling = new Scrolling(page);
-    const header = new Header(page);
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
@@ -19,11 +16,17 @@ test('Test Case 22: Add to cart from Recommended items', async ({ page }) => {
     await scrolling.scrollToBottom();
 
     await homePage.expectRecommendedItemsToBeVisible();
-    await homePage.clickAddToCart();
+    await homePage.freezeCarousel();
+    // Collect product's deatils
+    const selectedProduct = [];
+    const info = await homePage.getRecommendedProductInfo();
+    selectedProduct.push(info);
 
-    await productsPage.clickViewCart();
+    await homePage.clickAddToCartRecommendedProduct();
+    await cartModal.expectCartModalToBeVisible();
+    await cartModal.clickViewCart();
 
     await cartPage.expectCartPageToBeVisible();
-    //await cartPage.expectRandomProductInCart();
+    await cartPage.expectProductsInCart(selectedProduct);
 
 });

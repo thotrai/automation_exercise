@@ -1,8 +1,18 @@
-import { Page, expect } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export default class HomePage {
+    readonly page: Page;
+    readonly recommendedItemsSection: Locator;
+    readonly recommendedItemsCarousel: Locator;
+    readonly recommendedVisibleItems: Locator;
+    
+    constructor(page: Page) {
+       this.page = page;
+       this.recommendedItemsSection = page.getByText('RECOMMENDED ITEMS');
+       this.recommendedItemsCarousel = page.locator('#recommended-item-carousel');
+       this.recommendedVisibleItems = page.locator('#recommended-item-carousel .item.active .product-image-wrapper');
 
-    constructor(public page: Page) {}
+    }
 
     async navigate() {
         await this.page.goto('/');
@@ -29,21 +39,44 @@ export default class HomePage {
     }
 
     async expectRecommendedItemsToBeVisible() {
-        expect(this.page.getByText('recommended items')).toBeVisible();
-        expect(this.page.locator(`//div[@class='recommended_items']`)).toBeVisible();
+        await expect(this.recommendedItemsSection).toBeVisible();
     }
 
-    async clickAddToCartRecommended(number: number) {
-        const recommendedProduct = this.page.locator('#recommended-item-carousel .item.active .add-to-cart').nth(number-1);
-        await recommendedProduct.click();
+    // Returns recommended visible product details dynamically
+    async getRecommendedProductInfo(index: number=0) {
+        const card = this.recommendedVisibleItems.locator('.productinfo').nth(index);
+
+        const name = await card.locator('p').textContent();
+        const price = await card.locator('h2').textContent();
+        
+        return {
+            name: name?.trim() || "",
+            price: price?.trim() || ""
+        };
+    }
+
+    async freezeCarousel() {
+        // Runs JavaScript inside the browser
+        await this.page.evaluate(() => {
+            const carousel = document.querySelector('#recommended-item-carousel');
+            // Bootstrap carousel API
+            // @ts-ignore
+            $(carousel).carousel('pause');
+        });
+    }
+
+    async clickAddToCartRecommendedProduct(index: number=0) {
+        const product = this.recommendedVisibleItems.nth(index);
+        await expect(product).toBeVisible();
+        await product.getByText('Add to cart').click();
     }
 
     async hoverOnProduct(number: number) {
         await this.page.locator(`//div[@class='single-products']`).nth(number-1).hover();
     }
 
-    async clickAddToCartProduct(number: number) {
-        await this.page.locator(`//div[@class='overlay-content']//a[@class='btn btn-default add-to-cart']`).nth(number-1).click();
+    async clickAddToCartProduct(index: number) {
+        await this.page.locator(`//div[@class='overlay-content']//a[@class='btn btn-default add-to-cart']`).nth(index-1).click();
         await this.page.waitForSelector('.modal-content', { state: 'visible' });
         expect(this.page.locator(`//div[@class='modal-content']//div[@class='modal-header']`)).toContainText('Added!');
     }

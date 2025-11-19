@@ -13,8 +13,8 @@ test('Test Case 9: Search Product', async ({ page }) => {
     await header.clickProducts();
 
     await productsPage.expectProductsPageToBeVisible();
-    // search for 'Top' products
-    await productsPage.searchProduct('Top');
-    await productsPage.expectSearchedProductsToBeVisible('Top');
+    // search for 'Blue' products
+    await productsPage.searchProduct('Pink');
+    await productsPage.expectSearchedProductsToBeVisible('Pink');
     
 });
