@@ -1,63 +1,102 @@
-import { Page, expect } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
+import { Address } from "../types/Address";
 
 export default class SignupPage {
+    readonly page: Page;
+    readonly titleMrRadioButton: Locator;
+    readonly firstNameInput: Locator;
+    readonly lastNameInput: Locator;
+    readonly passwordInput: Locator;
+    readonly companyInput: Locator;
+    readonly address1Input: Locator;
+    readonly address2Input: Locator;
+    readonly countrySelect: Locator;
+    readonly stateInput: Locator;
+    readonly cityInput: Locator;
+    readonly zipcodeInput: Locator;
+    readonly mobileInput: Locator;
+    readonly newsletterCheckbox: Locator;
+    readonly offersCheckbox: Locator;
+    readonly createAccountButton: Locator;
 
-    constructor(public page: Page) {}
+    constructor(page: Page) {
+        this.page = page;
+        this.titleMrRadioButton = page.locator('#id_gender1');
+        this.firstNameInput = page.locator('#first_name');
+        this.lastNameInput = page.locator('#last_name');
+        this.passwordInput = page.locator('#password');
+        this.companyInput = page.locator('#company');
+        this.address1Input = page.locator('#address1');
+        this.address2Input = page.locator('#address2');
+        this.countrySelect = page.locator('#country');
+        this.stateInput = page.locator('#state');
+        this.cityInput = page.locator('#city');
+        this.zipcodeInput = page.locator('#zipcode');
+        this.mobileInput = page.locator('#mobile_number');
+        this.newsletterCheckbox = page.locator('#newsletter');
+        this.offersCheckbox = page.locator('#optin');
+        this.createAccountButton = page.getByRole('button', { name: 'Create Account' });
+    }
+
+    async selectTitle() {
+        await this.titleMrRadioButton.check();
+        await this.titleMrRadioButton.isChecked();
+    }
+
+    async fillPassword(password: string) {
+        await this.passwordInput.fill(password);
+    }
+
+    async selectBirthDay(day: string, month: string, year: string) {
+        await this.page.selectOption('#days', day);
+        await this.page.selectOption('#months', month);
+        await this.page.selectOption('#years', year);
+    }
 
     async expectLoginPageToBeVisible() {
         await expect(this.page).toHaveURL('signup');
         await expect(this.page.locator(`//b[normalize-space()='Enter Account Information']`)).toBeVisible();
     }
 
-    async fillAccountInformation(password: string, day: string, month: string, year: string) {
-        const titleRadioButton = await this.page.locator(`//input[@id='id_gender1']`);
-        await titleRadioButton.check();
-        await expect(titleRadioButton).toBeChecked();
-
-        await this.page.locator(`//input[@id='password']`).type(password);
-
-        await this.page.selectOption('#days', day);
-        await this.page.selectOption('#months', month);
-        await this.page.selectOption('#years', year);
-    }
 
     async checkNewsletterAndOffers() {
-        const newsletterCheckbox = await this.page.locator(`//input[@id='newsletter']`);
-        newsletterCheckbox.click();
-        await expect(newsletterCheckbox).toBeChecked();
+        await this.newsletterCheckbox.check();
+        await this.newsletterCheckbox.isChecked();
 
-        const offersCheckbox = await this.page.locator(`//input[@id='optin']`);
-        offersCheckbox.click();
-        await expect(offersCheckbox).toBeChecked();
+        await this.offersCheckbox.check();
+        await this.offersCheckbox.isChecked();
     }
 
-    async fillAddressInformation(firstName: string, lastName: string, address: string, country: string, state: string, city: string, zipcode: string, mobile: string) {
-        await this.page.locator(`//input[@id='first_name']`).type(firstName);
-        await this.page.locator(`//input[@id='last_name']`).type(lastName);
-        await this.page.locator(`//input[@id='address1']`).type(address);
-        await this.page.selectOption('#country', country);
-        await this.page.locator(`//input[@id='state']`).type(state);
-        await this.page.locator(`//input[@id='city']`).type(city);
-        await this.page.locator(`//input[@id='zipcode']`).type(zipcode);
-        await this.page.locator(`//input[@id='mobile_number']`).type(mobile);
-    }
-
-    async getAddressInfo() {
-        return {
-            firstName: await this.page.locator('#first_name').inputValue(),
-            lastName: await this.page.locator('#last_name').inputValue(),
-            address1: await this.page.locator('#address1').inputValue(),
-            address2: await this.page.locator('#address2').inputValue(),
-            city: await this.page.locator('#city').inputValue(),
-            state: await this.page.locator('#state').inputValue(),
-            zipcode: await this.page.locator('#zipcode').inputValue(),
-            country: await this.page.locator('#country').inputValue(),
-            mobileNumber: await this.page.locator('#mobile_number').inputValue()
-        };
+    async fillAddressInformation(data: Address) {
+        await this.firstNameInput.fill(data.firstName);
+        await this.lastNameInput.fill(data.lastName);
+        if (data.company) await this.companyInput.fill(data.company);
+        await this.address1Input.fill(data.address1);
+        if (data.address2) await this.address2Input.fill(data.address2);
+        await this.countrySelect.selectOption(data.country);
+        await this.stateInput.fill(data.state);
+        await this.cityInput.fill(data.city);
+        await this.zipcodeInput.fill(data.zipcode);
+        await this.mobileInput.fill(data.mobileNumber);
     }
 
     async clickCreateAccount() {
-        await this.page.getByRole('button', { name: 'Create Account'}).click();
+        await this.createAccountButton.click();
+    }
+
+    async getAddressInfo(): Promise<Address> {
+        return {
+            firstName: await this.firstNameInput.inputValue(),
+            lastName: await this.lastNameInput.inputValue(),
+            company: await this.companyInput.inputValue(),
+            address1: await this.address1Input.inputValue(),
+            address2: await this.address2Input.inputValue(),
+            country: await this.countrySelect.inputValue(),
+            state: await this.stateInput.inputValue(),
+            city: await this.cityInput.inputValue(),
+            zipcode: await this.zipcodeInput.inputValue(),
+            mobileNumber: await this.mobileInput.inputValue()
+        };
     }
 
 }

@@ -14,7 +14,8 @@
       "@test-data/*": ["test-data/*"],
       "@utils/*": ["utils/*"],
       "@components/*": ["components/*"],
+      "@types/*": ["types/*"],
     }
   },
-  "include": ["tests", "pages", "fixtures", "test-data", "utils", "scripts", "components"]
+  "include": ["tests", "pages", "fixtures", "test-data", "utils", "scripts", "components", "types"]
 }
