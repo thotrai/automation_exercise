@@ -71,12 +71,13 @@ export default class HomePage {
         await product.getByText('Add to cart').click();
     }
 
-    async hoverOnProduct(number: number) {
-        await this.page.locator(`//div[@class='single-products']`).nth(number-1).hover();
+    async hoverOnProduct(index: number=0) {
+        await this.page.locator(`//div[@class='single-products']`).nth(index).hover();
     }
 
-    async clickAddToCartProduct(index: number) {
-        await this.page.locator(`//div[@class='overlay-content']//a[@class='btn btn-default add-to-cart']`).nth(index-1).click();
+    async addProductToCart(index: number=0) {
+        await this.page.locator(`//div[@class='single-products']`).nth(index).hover();
+        await this.page.locator(`//div[@class='overlay-content']//a[@class='btn btn-default add-to-cart']`).nth(index).click();
         await this.page.waitForSelector('.modal-content', { state: 'visible' });
         expect(this.page.locator(`//div[@class='modal-content']//div[@class='modal-header']`)).toContainText('Added!');
     }

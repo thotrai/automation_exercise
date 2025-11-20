@@ -23,6 +23,7 @@ test('Test Case 22: Add to cart from Recommended items', async ({ page }) => {
     selectedProduct.push(info);
 
     await homePage.clickAddToCartRecommendedProduct();
+    
     await cartModal.expectCartModalToBeVisible();
     await cartModal.clickViewCart();
 

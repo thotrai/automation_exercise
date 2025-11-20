@@ -13,7 +13,7 @@
       "@fixtures/*": ["fixtures/*"],
       "@test-data/*": ["test-data/*"],
       "@utils/*": ["utils/*"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
     }
   },
   "include": ["tests", "pages", "fixtures", "test-data", "utils", "scripts", "components"]
