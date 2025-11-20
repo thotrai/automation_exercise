@@ -13,8 +13,8 @@ test('Test Case 5: Register User with existing email', async ({ page }) => {
     await header.clickSignupLogin();
 
     await loginPage.expectLoginPageToBeVisible();
-    await loginPage.typeNameAndEmail("ExistingUser", "test@mail.com"); 
+    await loginPage.fillNameAndEmail("ExistingUser", "test@mail.com"); 
     await loginPage.clickSignupButton();
-    await loginPage.errorExistingEmail();
+    await loginPage.expectErrorExistingEmailToBVisible();
 
 });

@@ -37,6 +37,12 @@ export default class SignupPage {
         this.offersCheckbox = page.locator('#optin');
         this.createAccountButton = page.getByRole('button', { name: 'Create Account' });
     }
+    
+    async expectSignupPageToBeVisible() {
+        await expect(this.page).toHaveURL('signup');
+        await expect(this.page.locator(`//b[normalize-space()='Enter Account Information']`)).toBeVisible();
+    }
+
 
     async selectTitle() {
         await this.titleMrRadioButton.check();
@@ -52,12 +58,6 @@ export default class SignupPage {
         await this.page.selectOption('#months', month);
         await this.page.selectOption('#years', year);
     }
-
-    async expectLoginPageToBeVisible() {
-        await expect(this.page).toHaveURL('signup');
-        await expect(this.page.locator(`//b[normalize-space()='Enter Account Information']`)).toBeVisible();
-    }
-
 
     async checkNewsletterAndOffers() {
         await this.newsletterCheckbox.check();

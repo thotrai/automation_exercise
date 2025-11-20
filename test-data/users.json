@@ -1,6 +1,6 @@
 {
     "name": "Thodoris",
-    "email": "thodoris@gmail.com",
+    "email": "thodoris11@mail.com",
     "password": "Test123@",
     "day": "17",
     "month": "January",
@@ -8,7 +8,8 @@
     "firstName": "Thodoris",
     "lastName": "Tester",
     "company": "Google",
-    "address": "15 Alpaca Way",
+    "address1": "15 Alpaca Way",
+    "address2": "Suite 33",
     "country": "United States",
     "state": "California",
     "city": "Santa Ana",

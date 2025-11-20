@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { Address } from '../types/Address';
 import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
@@ -25,6 +26,19 @@ test('Test Case 24: Download Invoice after purchase order', async ({ page }) => 
     const paymentPage = new PaymentPage(page);
     const paymentDonePage = new PaymentDonePage(page);
     const header = new Header(page);
+
+    const addressData: Address = {
+        firstName: 'Test',
+        lastName: 'Case',
+        company: 'Playwright',
+        address1: 'Random Street 86',
+        address2: 'Suite 10',
+        city: 'California',
+        state: 'Miami',
+        zipcode: '12345',
+        country: 'United States',
+        mobileNumber: '1234567890',
+    };
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();

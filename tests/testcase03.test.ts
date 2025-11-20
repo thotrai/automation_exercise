@@ -13,8 +13,8 @@ test('Test Case 3: Login User with incorrect email and password', async ({ page 
     await header.clickSignupLogin();
 
     await loginPage.expectLoginPageToBeVisible();
-    await loginPage.typeEmailAndPassword("Wrong@mail.com", "WrongPassword"); 
+    await loginPage.fillEmailAndPassword("Wrong@mail.com", "WrongPassword"); 
     await loginPage.clickLoginButton();
-    await loginPage.errorInvalidEmailOrPassword();
+    await loginPage.expectErrorInvalidEmailOrPasswordToBeVisible();
 
 });

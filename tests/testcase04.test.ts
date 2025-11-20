@@ -14,7 +14,7 @@ test('Test Case 4: Logout User', async ({ page }) => {
     await header.clickSignupLogin();
 
     await loginPage.expectLoginPageToBeVisible();
-    await loginPage.typeEmailAndPassword(data.email, data.password); // create new inputs
+    await loginPage.fillEmailAndPassword(data.email, data.password); // create new inputs
     await loginPage.clickLoginButton();
 
     await header.expectLoggedInAs(data.name); // create new input

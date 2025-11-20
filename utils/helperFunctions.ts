@@ -3,7 +3,7 @@ export function generateRandomEmail(): string {
     return `${randomString}@gmail.com`;
 }
 
-export function randomStrongPassword(length: number = 12) : string {
+export function generateStrongPassword(length: number=12): string {
     const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const lower = 'abcdefghijklmnopqrstuvwxyz';
     const numbers = '0123456789';

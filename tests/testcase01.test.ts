@@ -5,7 +5,7 @@ import SignupPage from '@pages/signupPage';
 import AccountPage from '@pages/accountPage'; 
 import DeleteAccountPage from '@pages/deleteAccountPage';
 import Header from '@components/header';
-import * as data from '../test-data/users.json'; 
+import { Address } from '../types/Address';
 
 test('Test Case 1: Register User', async ({ page }) => { 
   const homePage = new HomePage(page); 
@@ -15,24 +15,38 @@ test('Test Case 1: Register User', async ({ page }) => {
   const deleteAccountPage = new DeleteAccountPage(page);
   const header = new Header(page);
 
+  const addressData: Address = {
+        firstName: 'Test',
+        lastName: 'Case',
+        company: '',
+        address1: 'Random Street 86',
+        address2: 'Suite 10',
+        city: 'California',
+        state: 'Miami',
+        zipcode: '12345',
+        country: 'United States',
+        mobileNumber: '1234567890',
+    };
+
   await homePage.navigate();
   await homePage.expectHomePageToBeVisible();
   await header.clickSignupLogin();
 
   await loginPage.expectLoginPageToBeVisible();
-  await loginPage.typeNameAndEmail(data.name, data.email); 
+  await loginPage.fillNameAndEmail("TestCase01", "testcase01@mail.com"); //
   await loginPage.clickSignupButton();
 
-  await signupPage.expectLoginPageToBeVisible();
-  await signupPage.fillAccountInformation(data.password, data.day, data.month, data.year);
+  await signupPage.expectSignupPageToBeVisible();
+  await signupPage.selectTitle();
+  await signupPage.fillPassword("Test123@"); //
   await signupPage.checkNewsletterAndOffers();
-  await signupPage.fillAddressInformation(data.firstName, data.lastName, data.address, data.country, data.state, data.city, data.zipcode, data.mobile);
+  await signupPage.fillAddressInformation(addressData);
   await signupPage.clickCreateAccount();
 
   await accountPage.expectAccountCreated();
   await accountPage.clickContinue();
 
-  await header.expectLoggedInAs(data.name); 
+  await header.expectLoggedInAs("TestCase01"); //
   await header.clickDeleteAccount(); 
 
   await deleteAccountPage.expectAccountDeleted();

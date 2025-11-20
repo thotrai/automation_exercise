@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { Address } from '../types/Address';
 import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
@@ -20,6 +21,19 @@ test('Test Case 23: Verify address details in checkout page', async ({ page }) =
     const deleteAccountPage = new DeleteAccountPage(page);
     const header = new Header(page);
 
+    const addressData: Address = {
+        firstName: 'Test',
+        lastName: 'Case',
+        company: '',
+        address1: 'Random Street 86',
+        address2: 'Suite 10',
+        city: 'California',
+        state: 'Miami',
+        zipcode: '12345',
+        country: 'United States',
+        mobileNumber: '1234567890',
+    };
+
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
     await header.clickSignupLogin();
@@ -28,10 +42,12 @@ test('Test Case 23: Verify address details in checkout page', async ({ page }) =
     await loginPage.typeNameAndEmail("UserTC23","usertc23@gmail.com"); // update
     await loginPage.clickSignupButton();
 
-    await signupPage.expectLoginPageToBeVisible();
-    await signupPage.fillAccountInformation("Test123@", "23", "10", "2000");
+    await signupPage.expectSignupPageToBeVisible();
+    await signupPage.selectTitle();
+    await signupPage.fillPassword("Test123");
+    await signupPage.selectBirthDay("10", "10", "2000");
     await signupPage.checkNewsletterAndOffers();
-    await signupPage.fillAddressInformation("User", "Testcase", "Street 86", "United States", "California", "Miami", "99999", "1234567890");
+    await signupPage.fillAddressInformation(addressData);
     const addressInformations = await signupPage.getAddressInfo();
     await signupPage.clickCreateAccount();
 
@@ -48,10 +64,9 @@ test('Test Case 23: Verify address details in checkout page', async ({ page }) =
     await cartPage.clickProccedToCheckout();  
 
     await checkoutPage.expectCheckoutPageToBeVisibe();
-    await checkoutPage.expectAddressDetailsToBeVisible();
+    await checkoutPage.expectAddressSectionToBeVisible();
     await checkoutPage.expectDeliveryAddressToMatch(addressInformations);
-    await checkoutPage.expectReviewYourOrderToBeVisible();
-    await checkoutPage.expectBillingAddressToMatch(addressInformations);
+    await checkoutPage.expectInvoiceAddressToMatch(addressInformations);
 
     await header.clickDeleteAccount(); 
 

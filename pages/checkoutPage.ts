@@ -1,60 +1,79 @@
-import { Page, expect } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
+import { Address } from '../types/Address';
 
 export default class CheckoutPage {
+    readonly page: Page;
+    readonly deliveryAddressBox: Locator;
+    readonly invoiceAddressBox: Locator;
+    readonly orderMessageInput: Locator;
+    readonly placeOrderButton: Locator;
 
-    constructor(public page: Page) {};
+    constructor(page: Page) {
+        this.page = page;
+        this.deliveryAddressBox = page.locator('#address_delivery');
+        this.invoiceAddressBox = page.locator('#address_invoice');
+        this.orderMessageInput = page.locator('[name="message"]');
+        this.placeOrderButton = page.getByRole('link', { name: 'Place Order' });
+    };
     
     async expectCheckoutPageToBeVisibe() {
         await expect(this.page).toHaveURL('/checkout');
         await expect(this.page.getByText('Checkout')).toBeVisible();
     }
 
-    // needs improvement
-    async expectAddressDetailsToBeVisible() {
-        await expect(this.page.getByText('Address Details')).toBeVisible();
+    async expectAddressSectionToBeVisible() {
+        await expect(this.deliveryAddressBox).toBeVisible();
+        await expect(this.invoiceAddressBox).toBeVisible();
     }
 
-    async expectDeliveryAddressToMatch(expectedAddress: any) {
-        const deliveryBox = this.page.locator('#address_delivery');
-
-        await expect(deliveryBox).toContainText(expectedAddress.firstName);
-        await expect(deliveryBox).toContainText(expectedAddress.lastName);
-        await expect(deliveryBox).toContainText(expectedAddress.address1);
-        await expect(deliveryBox).toContainText(expectedAddress.city);
-        await expect(deliveryBox).toContainText(expectedAddress.state);
-        await expect(deliveryBox).toContainText(expectedAddress.zipcode);
-        await expect(deliveryBox).toContainText(expectedAddress.country);
-        await expect(deliveryBox).toContainText(expectedAddress.mobileNumber);
-    }
-
-    async expectBillingAddressToMatch(expectedAddress: any) {
-        const billingAddress = this.page.locator('#address_invoice');
-
-        await expect(billingAddress).toContainText(expectedAddress.firstName);
-        await expect(billingAddress).toContainText(expectedAddress.lastName);
-        await expect(billingAddress).toContainText(expectedAddress.address1);
-        await expect(billingAddress).toContainText(expectedAddress.city);
-        await expect(billingAddress).toContainText(expectedAddress.state);
-        await expect(billingAddress).toContainText(expectedAddress.zipcode);
-        await expect(billingAddress).toContainText(expectedAddress.country);
-        await expect(billingAddress).toContainText(expectedAddress.mobileNumber);
-    }
-
-    // needs improvement
     async expectReviewYourOrderToBeVisible() {
         await expect(this.page.getByText('Review Your Order')).toBeVisible();
     }
 
     async expectOrderMessageBeVisible() {
-        await expect(this.page.locator('#ordermsg')).toBeVisible();
+        await expect(this.orderMessageInput).toBeVisible();
     }
 
-    async typeMessage(message: string) {
-        await this.page.locator('[name="message"]').type(message);
+    async typeOrderMessage(message: string) {
+        await this.orderMessageInput.fill(message);
     }
 
     async clickPlaceOrder() {
-        await this.page.getByRole('link', { name: 'Place Order' }).click();
+        await this.placeOrderButton.click();
     }
+
+    async expectDeliveryAddressToMatch(expected: Address) {
+    await expect(this.deliveryAddressBox).toContainText(expected.firstName);
+    await expect(this.deliveryAddressBox).toContainText(expected.lastName);
+    if (expected.company) {
+      await expect(this.deliveryAddressBox).toContainText(expected.company);
+    }
+    await expect(this.deliveryAddressBox).toContainText(expected.address1);
+    if (expected.address2) {
+      await expect(this.deliveryAddressBox).toContainText(expected.address2);
+    }
+    await expect(this.deliveryAddressBox).toContainText(expected.city);
+    await expect(this.deliveryAddressBox).toContainText(expected.state);
+    await expect(this.deliveryAddressBox).toContainText(expected.zipcode);
+    await expect(this.deliveryAddressBox).toContainText(expected.country);
+    await expect(this.deliveryAddressBox).toContainText(expected.mobileNumber);
+  }
+
+    async expectInvoiceAddressToMatch(expected: Address) {
+    await expect(this.invoiceAddressBox).toContainText(expected.firstName);
+    await expect(this.invoiceAddressBox).toContainText(expected.lastName);
+    if (expected.company) {
+      await expect(this.deliveryAddressBox).toContainText(expected.company);
+    }
+    await expect(this.invoiceAddressBox).toContainText(expected.address1);
+    if (expected.address2) {
+      await expect(this.invoiceAddressBox).toContainText(expected.address2);
+    }
+    await expect(this.invoiceAddressBox).toContainText(expected.city);
+    await expect(this.invoiceAddressBox).toContainText(expected.state);
+    await expect(this.invoiceAddressBox).toContainText(expected.zipcode);
+    await expect(this.invoiceAddressBox).toContainText(expected.country);
+    await expect(this.invoiceAddressBox).toContainText(expected.mobileNumber);
+  }
 
 }
