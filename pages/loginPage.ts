@@ -39,7 +39,7 @@ export default class LoginPage {
 
     async fillEmailAndPassword(email: string, password: string) {
         await this.loginEmailInput.fill(email);
-        await this.passwordInput.type(password);
+        await this.passwordInput.fill(password);
     }
 
     async clickLoginButton() {

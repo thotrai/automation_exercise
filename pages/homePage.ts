@@ -13,7 +13,6 @@ export default class HomePage {
     readonly fullFledgedText: Locator;
     
     constructor(page: Page) {
-
         this.page = page;
         this.consentDialog = page.locator('.fc-dialog-container');
         this.modalContent = page.locator('.modal-content');

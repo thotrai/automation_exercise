@@ -1,16 +1,23 @@
-import { Page, expect } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export default class AccountPage {
+    readonly page: Page;
+    readonly textAccountCreated: Locator;
+    readonly continueButton: Locator;
 
-    constructor(public page: Page) {}
+    constructor(page: Page) {
+        this.page = page;
+        this.textAccountCreated = page.getByText('ACCOUNT CREATED!');
+        this.continueButton = page.getByRole('link', { name: 'Continue' });
+    }
 
     async expectAccountCreated() {
         expect(this.page).toHaveURL('account_created');
-        expect(this.page.locator(`//b[normalize-space()='Account Created!']`)).toBeVisible();
+        expect(this.textAccountCreated).toBeVisible();
     }
 
     async clickContinue() {
-        await this.page.locator(`//div//a[@data-qa='continue-button']`).click();
+        await this.continueButton.click();
     }
 
 }

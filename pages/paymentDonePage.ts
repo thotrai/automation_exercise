@@ -1,26 +1,37 @@
-import { Page, expect } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export default class PaymentDonePage {
+    readonly page: Page;
+    readonly textOrderPlaced: Locator;
+    readonly congratulationsMessage: Locator;
+    readonly continueButton: Locator;
+    readonly downloadInvoiceButton: Locator;
 
-    constructor(public page: Page) {}
+    constructor(page: Page) {
+        this.page = page;
+        this.textOrderPlaced = page.getByText('ORDER PLACED!');
+        this.congratulationsMessage = page.getByText(`Congratulations! Your order has been confirmed!`);
+        this.continueButton = page.getByRole('link', { name: 'Continue' });
+        this.downloadInvoiceButton = page.getByRole('link', { name: 'Download Invoice' });
+    }    
 
     async expectPaymentDonePageToBeVisible() {
         await expect(this.page).toHaveURL('/payment_done/1500');
-        await expect(this.page.getByText('Order Placed!')).toBeVisible();
+        await expect(this.textOrderPlaced).toBeVisible();
     }
 
     async expectCongratulationsMessageToBeVisible() {
-        await expect(this.page.getByText(`Congratulations! Your order has been confirmed!`)).toBeVisible();
+        await expect(this.congratulationsMessage).toBeVisible();
     }
 
     async clickContinue() {
-        await this.page.getByRole('link', { name: 'Continue' }).click();
+        await this.continueButton.click();
     }
 
     async clickDownloadInvoice() {
         const [download] = await Promise.all([
             this.page.waitForEvent('download'),
-            this.page.getByRole('link', { name: 'Download Invoice' }).click(),
+            this.downloadInvoiceButton.click(),
         ]);
 
         // Verify suggested filename is not empty
