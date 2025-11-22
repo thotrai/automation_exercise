@@ -14,10 +14,10 @@ export default class ContactPage {
     constructor(page: Page) {
         this.page = page;
         this.textGetInTouch = this.page.getByText('GET IN TOUCH');
-        this.nameInput = page.getByRole('textbox', { name: 'Name' });
-        this.emailInput = page.getByRole('textbox', { name: 'Email' });
-        this.subjectInput = page.getByRole('textbox', { name: 'Subject' });
-        this.messageInput = page.getByRole('textbox', { name: 'Your Message Here' });
+        this.nameInput = page.locator('input[name="name"]');
+        this.emailInput = page.locator('input[name="email"]');
+        this.subjectInput = page.locator('input[name="subject"]');
+        this.messageInput = page.locator('#message');
         this.submitButton = page.getByRole('button', { name: 'submit'});
         this.successMessage = page.locator(`//div[@class='status alert alert-success']`);
         this.homeButton = page.locator('a.btn.btn-success');

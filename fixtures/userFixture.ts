@@ -1,0 +1,63 @@
+import { test as base } from '@playwright/test';
+import HomePage from '../pages/homePage';
+import LoginPage from '../pages/loginPage';
+import SignupPage from '../pages/signupPage';
+import AccountPage from '@pages/accountPage';
+import Header from '../components/header';
+import { createRandomUser } from '../utils/helperFunctions';
+import { User } from '../types/User';
+import { Address } from '../types/Address';
+
+type Fixtures = {
+    user: User;
+}
+
+const address: Address = {
+    firstName: 'Test',
+    lastName: 'Case02',
+    company: '',
+    address1: 'Random Street 86',
+    address2: 'Suite 10',
+    city: 'Florida',
+    state: 'Miami',
+    zipcode: '12345',
+    country: 'United States',
+    mobileNumber: '1234567890',
+  };
+
+// Greate a new user and logout
+export const test = base.extend<Fixtures> ({
+    user: async ({ page }, use) => {
+        const homePage = new HomePage(page);
+        const loginPage = new LoginPage(page);
+        const signupPage = new SignupPage(page);
+        const accountPage = new AccountPage(page);
+        const header = new Header(page);
+
+        const user = createRandomUser();
+
+        await homePage.navigate();
+        await homePage.expectHomePageToBeVisible();
+        await header.clickSignupLogin();
+
+        await loginPage.expectLoginPageToBeVisible();
+        await loginPage.fillNameAndEmail(user.name, user.email);
+        await loginPage.clickSignupButton();
+
+        await signupPage.expectSignupPageToBeVisible();
+        await signupPage.selectTitle();
+        await signupPage.fillPassword(user.password);
+        await signupPage.selectBirthDay(user.day, user.month, user.year);
+        await signupPage.checkNewsletterAndOffers();
+        await signupPage.fillAddressInformation(address);
+        await signupPage.clickCreateAccount();
+
+        await accountPage.expectAccountCreated();
+        await accountPage.clickContinue();
+
+        await header.expectLoggedInAs(user.name);
+        await header.clickLogout();
+
+        await use(user);
+    }
+});

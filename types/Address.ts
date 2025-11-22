@@ -4,9 +4,9 @@ export type Address = {
   company: string;
   address1: string;
   address2: string;
-  city: string;
-  state: string;
-  zipcode: string;
   country: string;
+  state: string;
+  city: string;
+  zipcode: string;
   mobileNumber: string;
 };

@@ -50,7 +50,7 @@ export default class LoginPage {
         expect(this.errorInvalidCredentials).toBeVisible();
     }
 
-    async expectErrorExistingEmailToBVisible() {
+    async expectErrorExistingEmailToBeVisible() {
         expect(this.errorExistingEmail).toBeVisible();
     }
 

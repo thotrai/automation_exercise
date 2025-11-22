@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'; 
+import { test } from '@playwright/test'; 
 import HomePage from '@pages/homePage'; 
 import TestCasesPage from '@pages/testCasesPage'; 
 import Header from '@components/header';
