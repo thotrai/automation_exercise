@@ -1,8 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
 import CheckoutPage from '@pages/checkoutPage';
+import CheckoutModal from '@components/checkoutModal';
 import LoginPage from '@pages/loginPage';
 import SignupPage from '@pages/signupPage';
 import AccountPage from '@pages/accountPage';
@@ -10,12 +11,17 @@ import DeleteAccountPage from '@pages/deleteAccountPage';
 import PaymentPage from '@pages/paymentPage';
 import PaymentDonePage from '@pages/paymentDonePage';
 import Header from '@components/header';
+import { products } from '@test-data/products';
+import { users } from '@test-data/users';
+import { addresses } from '@test-data/addresses';
+import { creditCards } from '@test-data/creditCards';
 
-test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => {
+test('Test Case 15: Place Order: Login before Checkout', async ({ page }) => {
     const homePage = new HomePage(page);
     const cartModal = new CartModal(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
+    const checkoutModal = new CheckoutModal(page);
     const loginPage = new LoginPage(page);
     const signupPage = new SignupPage(page);
     const accountPage = new AccountPage(page);
@@ -24,45 +30,48 @@ test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => 
     const paymentDonePage = new PaymentDonePage(page);
     const header = new Header(page);
 
+    const product = products.blueTop;
+    const user = users.validUser;
+    const address = addresses.address1;
+    const creditCard = creditCards.visa;
+    const message = 'This is a message for my order!';
+
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
     await header.clickSignupLogin();
 
     await loginPage.expectLoginPageToBeVisible();
-    await loginPage.typeNameAndEmail("UserTC14","usertc14@qmail.com"); // update
+    await loginPage.fillNameAndEmail(user.name, user.email);
     await loginPage.clickSignupButton();
 
-    await signupPage.expectLoginPageToBeVisible();
-    await signupPage.fillAccountInformation("Test123@", "23", "10", "2000");
+    await signupPage.expectSignupPageToBeVisible();
+    await signupPage.selectTitle();
+    await signupPage.fillPassword(user.password); 
+    await signupPage.selectBirthDay(user.day, user.month, user.year); 
     await signupPage.checkNewsletterAndOffers();
-    await signupPage.fillAddressInformation("User", "Testcase", "Street", "United States", "California", "Miami", "99999", "1234567890");
+    await signupPage.fillAddressInformation(address);
     await signupPage.clickCreateAccount();
 
     await accountPage.expectAccountCreated();
     await accountPage.clickContinue();
 
-    await header.expectLoggedInAs("User");
-    // Stylish Dress
-    await homePage.hoverOnProduct(4);
-    await homePage.clickAddToCartProduct(4); 
+    await header.expectLoggedInAs(user.name);
     
+    await homePage.addProductToCartByName(product.name); 
     await cartModal.clickViewCart();
 
     await cartPage.expectCartPageToBeVisible();
-    await cartPage.clickProccedToCheckout();  
+    await cartPage.clickProccedToCheckout();
 
     await checkoutPage.expectCheckoutPageToBeVisibe();
-    await checkoutPage.expectAddressDetailsToBeVisible();
+    await checkoutPage.expectAddressSectionToBeVisible();
     await checkoutPage.expectReviewYourOrderToBeVisible();
     await checkoutPage.expectOrderMessageBeVisible();
-    await checkoutPage.typeMessage("This is a message for my order!");
+    await checkoutPage.typeOrderMessage(message);
     await checkoutPage.clickPlaceOrder();
 
     await paymentPage.expectPaymentPageToBeVisibe();
-    await paymentPage.typeNameOnCard("User Testcase");
-    await paymentPage.typeCardNumber("6011208800050000");
-    await paymentPage.typeCVC("333");
-    await paymentPage.typeExpirationDate("10", "2028");
+    await paymentPage.fillCreditCardInformation(creditCard.name, creditCard.number, creditCard.cvc, creditCard.month, creditCard.year);
     await paymentPage.clickPayAndConfirmOrder();
     //await paymentPage.expectSuccessMessage();
 

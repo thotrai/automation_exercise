@@ -5,7 +5,7 @@ export default class HomePage {
     readonly consentDialog: Locator;
     readonly modalContent: Locator;
     readonly modalHeader: Locator;
-    readonly productCard: Locator;
+    readonly productCards: Locator;
     readonly overlayAddToCartButton: Locator;
     readonly recommendedItemsSection: Locator;
     readonly recommendedItemsCarousel: Locator;
@@ -17,12 +17,17 @@ export default class HomePage {
         this.consentDialog = page.locator('.fc-dialog-container');
         this.modalContent = page.locator('.modal-content');
         this.modalHeader = page.locator('.modal-content .modal-header');
-        this.productCard = page.locator('.single-products');
+        this.productCards = page.locator('.product-image-wrapper');
         this.overlayAddToCartButton = page.locator('.overlay-content a.btn.btn-default.add-to-cart');
         this.recommendedItemsSection = page.getByText('RECOMMENDED ITEMS');
         this.recommendedItemsCarousel = page.locator('#recommended-item-carousel');
         this.recommendedVisibleItems = page.locator('#recommended-item-carousel .item.active .product-image-wrapper');
         this.fullFledgedText = page.getByText('Full-Fledged practice website for Automation Engineers');
+    }
+
+    // Use it as a Locator for finding card by product name
+    private productCartByName(name: string): Locator {
+        return this.productCards.filter({ hasText: name }).first();
     }
 
     async navigate() {
@@ -81,15 +86,13 @@ export default class HomePage {
         await product.getByText('Add to cart').click();
     }
 
-    // do I use it?
-    async hoverOnProduct(index: number=0) {
-        await this.productCard.nth(index).hover();
+    async addProductToCartByName(name: string) {
+        const card = this.productCartByName(name);
+        await expect(card).toBeVisible();
+        await card.hover();
+        await card.getByText('Add to cart').nth(1).click();
+
+        await this.page.waitForSelector('.modal-content', { state: 'visible' });
     }
 
-    async addProductToCart(index: number=0) {
-        await this.productCard.nth(index).hover();
-        await this.overlayAddToCartButton.nth(index).click();
-        await this.page.waitForSelector('.modal-content', { state: 'visible' }); //
-        expect(this.page.locator(`//div[@class='modal-content']//div[@class='modal-header']`)).toContainText('Added!'); //
-    }
 }

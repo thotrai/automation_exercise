@@ -16,7 +16,7 @@ export default class PaymentDonePage {
     }    
 
     async expectPaymentDonePageToBeVisible() {
-        await expect(this.page).toHaveURL('/payment_done/1500');
+        await expect(this.page).toHaveURL(new RegExp('/payment_done/\\d+$'));
         await expect(this.textOrderPlaced).toBeVisible();
     }
 

@@ -13,7 +13,7 @@ test('Test Case 9: Search Product', async ({ page }) => {
     await header.clickProducts();
 
     await productsPage.expectProductsPageToBeVisible();
-    // search for 'Blue' products
+    // search for 'Pink' products
     await productsPage.searchProduct('Pink');
     await productsPage.expectSearchedProductsToBeVisible('Pink');
     

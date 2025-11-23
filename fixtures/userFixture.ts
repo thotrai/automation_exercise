@@ -6,24 +6,11 @@ import AccountPage from '@pages/accountPage';
 import Header from '../components/header';
 import { createRandomUser } from '../utils/helperFunctions';
 import { User } from '../types/User';
-import { Address } from '../types/Address';
+import { addresses } from '@test-data/addresses';
 
 type Fixtures = {
     user: User;
 }
-
-const address: Address = {
-    firstName: 'Test',
-    lastName: 'Case02',
-    company: '',
-    address1: 'Random Street 86',
-    address2: 'Suite 10',
-    city: 'Florida',
-    state: 'Miami',
-    zipcode: '12345',
-    country: 'United States',
-    mobileNumber: '1234567890',
-  };
 
 // Greate a new user and logout
 export const test = base.extend<Fixtures> ({
@@ -35,6 +22,7 @@ export const test = base.extend<Fixtures> ({
         const header = new Header(page);
 
         const user = createRandomUser();
+        const address = addresses.address1;
 
         await homePage.navigate();
         await homePage.expectHomePageToBeVisible();

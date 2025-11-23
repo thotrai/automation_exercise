@@ -11,7 +11,7 @@ export default class CheckoutModal {
         this.page = page;
         this.modal = page.locator(".modal-content");
         this.textCheckout = page.getByText('Checkout.');
-        this.registerLoginLink = page.getByText('Register / Login');
+        this.registerLoginLink = page.getByText('Register / Login').nth(1);
         this.continueOnCartButton = page.getByRole('button', { name: 'Continue On Cart' });
     };
 

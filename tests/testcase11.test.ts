@@ -10,7 +10,7 @@ test('Test Case 11: Verify Subscription in Cart page', async ({ page }) => {
     const cartPage = new CartPage(page);
     const footer = new Footer(page);
     const header = new Header(page);
-
+    // Valid user
     const user = users.validUser;
 
     await homePage.navigate();

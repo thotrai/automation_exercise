@@ -1,59 +1,76 @@
 import { Page, Locator, expect } from "@playwright/test";
+import { Product } from "../types/Product";
 
 export default class ProductsPage {
     readonly page: Page;
+    readonly productsSection: Locator;
     readonly productCards: Locator;
+    readonly searchInput: Locator;
+    readonly searchButton: Locator;
+    readonly textSearcedProducts: Locator;
+    readonly addToCartButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.productCards = this.page.locator('.productinfo');
+        this.productsSection = page.locator('.features_items');
+        this.productCards = page.locator('.product-image-wrapper');
+        this.searchInput = page.getByPlaceholder('Search Product');
+        this.searchButton = page.locator("#submit_search");
+        this.textSearcedProducts = page.getByText('Searched Products');
+        this.addToCartButton = page.locator('.overlay-content .add-to-cart');
+    }
+
+    // Use it as a Locator for finding card by product name
+    private productCartByName(name: string): Locator {
+        return this.productCards.filter({ hasText: name }).first();
     }
 
     async expectProductsPageToBeVisible() {
         expect(this.page).toHaveURL('products');
-        expect(this.page.locator(`//div[@class='features_items']`)).toBeVisible();
+        expect(this.productsSection).toBeVisible();
     } 
 
-    // Returns product details dynamically
-    async getProductInfo(index: number) {
-        const card = this.productCards.nth(index-1);
+    async clickViewProductByName(name: string) {
+        const card = this.productCartByName(name);
+        await expect(card).toBeVisible();
+        await card.getByText('View Product').click();
+    }
 
-        const name = await card.locator('p').textContent();
+    // Returns product details dynamically
+    async getProductInfoByName(name: string): Promise<Partial<Product>> {
+        const card = this.productCartByName(name);
         const price = await card.locator('h2').textContent();
         
         return {
-            name: name?.trim() || "",
+            name,
             price: price?.trim() || ""
         };
     }
 
-    async clickViewProduct(index: number) {
-        await this.page.getByText('View Product').nth(index-1).click();
-    }
-
-    async searchProduct(productName: string) {
-        await this.page.getByPlaceholder('Search Product').type(`${productName}`);
-        await this.page.locator("#submit_search").click();
+    async searchProduct(name: string) {
+        await this.searchInput.fill(name);
+        await this.searchButton.click();
     }
 
     async expectSearchedProductsToBeVisible(searchedProduct: string) {
         await expect(this.page).toHaveURL(new RegExp(`products\\?search=${searchedProduct}`));
-        await expect(this.page.locator(`//h2[normalize-space()='Searched Products']`)).toBeVisible();
+        await expect(this.textSearcedProducts).toBeVisible();
 
-        const results = this.page.locator('.productinfo p');
+        const results = this.productCards;
         const count = await results.count();
 
         for (let i = 0; i < count; i++) {
             await expect(results.nth(i)).toContainText(searchedProduct);
         } 
     }
-
-    async clickAddToCart(index: number) {
-        await this.page.locator('.single-products').nth(index-1).hover();
-        await this.page.locator('.overlay-content .add-to-cart').nth(index-1).click();
+    
+    async addProductToCartByName(name: string) {
+        const card = this.productCartByName(name);
+        await expect(card).toBeVisible();
+        await card.hover();
+        await card.getByText('Add to cart').nth(1).click();
 
         await this.page.waitForSelector('.modal-content', { state: 'visible' });
-        expect(this.page.locator(`//div[@class='modal-content']//div[@class='modal-header']`)).toContainText('Added!');
     }
 
 }
