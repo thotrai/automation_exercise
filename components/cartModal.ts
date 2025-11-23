@@ -1,22 +1,32 @@
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 
 export default class CartModal {
+    readonly page: Page;
+    readonly modal: Locator;
+    readonly textModal: Locator;
+    readonly viewCartLink: Locator;
+    readonly continueShopipingButton: Locator;
 
-    constructor(public page: Page) {};
+    constructor(page: Page) {
+        this.page = page;
+        this.modal = page.locator(".modal-content");
+        this.textModal = page.getByText('Your product has been added to cart.');
+        this.viewCartLink = page.getByText('View Cart');
+        this.continueShopipingButton = page.getByRole('button', { name: 'Continue Shopping' });
+    };
 
     async expectCartModalToBeVisible() {
-        const modal = this.page.locator(".modal-content");
-        await expect(modal).toBeVisible();
-        expect(this.page.getByText('Your product has been added to cart.')).toBeVisible();
+        await expect(this.modal).toBeVisible();
+        await expect(this.textModal).toBeVisible();
     }
 
     async clickViewCart() {
-        await this.page.click(`//u[contains(text(),"View Cart")]`);
+        await this.viewCartLink.click();
     }
 
     async clickContinueShopping() {
-        await this.page.getByRole('button', {name: 'Continue Shopping'}).click();
-        expect(this.page.locator(".modal-content")).toBeHidden();
+        await this.continueShopipingButton.click();
+        await expect(this.modal).toBeHidden();
     }
 
 }

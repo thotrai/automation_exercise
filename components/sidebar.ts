@@ -1,17 +1,33 @@
-import { Page, expect } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export default class Sidebar {
+    readonly page: Page;
+    readonly sidebar: Locator;
+    readonly textCategory: Locator;
+    readonly textBrands: Locator;
+    readonly emailInput: Locator;
+    readonly subscribeButton: Locator;
+    readonly subscribeMessage: Locator;
 
-    constructor(public page: Page) {}
+    constructor(page: Page) {
+        this.page = page;
+        this.sidebar = page.locator('.left-sidebar');
+        this.textCategory = page.getByText('Category');
+        this.textBrands = page.getByText('Brands');
+        this.emailInput = page.getByRole('textbox', { name: 'Your email address' });
+        this.subscribeButton = page.locator('#subscribe');
+        this.subscribeMessage = page.getByText('You have been successfully subscribed!');
+
+    }
 
     async expectCategoryToBeVisible() {
-        expect(this.page.locator('.left-sidebar')).toBeVisible();
-        expect(this.page.getByText('Category')).toBeVisible();
+        await expect(this.sidebar).toBeVisible();
+        await expect(this.textCategory).toBeVisible();
     }
 
     async expectBrandsToBeVisible() {
-        expect(this.page.locator('.left-sidebar')).toBeVisible();
-        expect(this.page.getByText('Brands')).toBeVisible();
+        await expect(this.sidebar).toBeVisible();
+        await expect(this.textBrands).toBeVisible();
     }
 
     async clickCategory(categoryName: string, subcategoryName: string) {
@@ -21,6 +37,7 @@ export default class Sidebar {
         await subcategory.click();
     }
 
+    // categoryProductsPage?
     async expectCategoryHeaderToContain(text: string) {
         await expect(this.page.locator('.title.text-center')).toContainText(text);
     }
@@ -30,6 +47,7 @@ export default class Sidebar {
         
     }
 
+    // brandProductsPage?
     async expectBrandHeaderToContain(text: string) {
         await expect(this.page.locator('.title.text-center')).toContainText(text);
     }
