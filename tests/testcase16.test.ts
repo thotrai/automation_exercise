@@ -9,7 +9,7 @@ import DeleteAccountPage from '@pages/deleteAccountPage';
 import PaymentPage from '@pages/paymentPage';
 import PaymentDonePage from '@pages/paymentDonePage';
 import Header from '@components/header';
-import * as data from '../test-data/users.json'; 
+// import * as data from '../test-data/users.json'; 
 
 test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => {
     const homePage = new HomePage(page);

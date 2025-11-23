@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { Address } from '../types/Address';
 import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
@@ -9,6 +9,7 @@ import SignupPage from '@pages/signupPage';
 import AccountPage from '@pages/accountPage';
 import DeleteAccountPage from '@pages/deleteAccountPage';
 import Header from '@components/header';
+import { users } from '@test-data/users';
 
 test('Test Case 23: Verify address details in checkout page', async ({ page }) => {
     const homePage = new HomePage(page);
@@ -20,6 +21,8 @@ test('Test Case 23: Verify address details in checkout page', async ({ page }) =
     const accountPage = new AccountPage(page);
     const deleteAccountPage = new DeleteAccountPage(page);
     const header = new Header(page);
+
+    const user = users.validUser;
 
     const addressData: Address = {
         firstName: 'Test',
@@ -39,13 +42,13 @@ test('Test Case 23: Verify address details in checkout page', async ({ page }) =
     await header.clickSignupLogin();
 
     await loginPage.expectLoginPageToBeVisible();
-    await loginPage.typeNameAndEmail("UserTC23","usertc23@gmail.com"); // update
+    await loginPage.fillNameAndEmail(user.name, user.email); 
     await loginPage.clickSignupButton();
 
     await signupPage.expectSignupPageToBeVisible();
     await signupPage.selectTitle();
-    await signupPage.fillPassword("Test123");
-    await signupPage.selectBirthDay("10", "10", "2000");
+    await signupPage.fillPassword(user.password);
+    await signupPage.selectBirthDay(user.day, user.month, user.year);
     await signupPage.checkNewsletterAndOffers();
     await signupPage.fillAddressInformation(addressData);
     const addressInformations = await signupPage.getAddressInfo();
@@ -54,7 +57,7 @@ test('Test Case 23: Verify address details in checkout page', async ({ page }) =
     await accountPage.expectAccountCreated();
     await accountPage.clickContinue();
 
-    await header.expectLoggedInAs("User");
+    await header.expectLoggedInAs(user.name);
     // Blue Top
     await homePage.addProductToCart(); 
     await cartModal.expectCartModalToBeVisible();
