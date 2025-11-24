@@ -9,6 +9,7 @@ export default class ProductsPage {
     readonly searchButton: Locator;
     readonly textSearcedProducts: Locator;
     readonly addToCartButton: Locator;
+    readonly searchedProductsTitle: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -18,6 +19,7 @@ export default class ProductsPage {
         this.searchButton = page.locator("#submit_search");
         this.textSearcedProducts = page.getByText('Searched Products');
         this.addToCartButton = page.locator('.overlay-content .add-to-cart');
+        this.searchedProductsTitle = page.locator('h2:has-text("SEARCHED PRODUCTS")');
     }
 
     // Use it as a Locator for finding card by product name
@@ -72,5 +74,40 @@ export default class ProductsPage {
 
         await this.page.waitForSelector('.modal-content', { state: 'visible' });
     }
+
+    async expectSearchedProductsTitleToBeVisible() {
+        await expect(this.searchedProductsTitle).toBeVisible();
+    }
+
+    async getAllSearchedProducts(): Promise<Partial<Product>[]> {
+        const results = this.productCards;
+        const count = await results.count();
+        const products: Partial<Product>[] = [];
+
+        for (let i = 0; i < count; i++) {
+            const card = results.nth(i);
+            const name = (await card.locator('.productinfo p').textContent())?.trim() || '';
+            const price = (await card.locator('.productinfo h2').textContent())?.trim() || '';
+
+            products.push({ name, price });
+        }
+
+        return products;
+    }
+
+    async addAllSearchedProductsToCart() {
+        const results = this.productCards;
+        const count = await results.count();
+
+        for (let i = 0; i < count; i++) {
+            const card = results.nth(i);
+            await card.hover();
+            await card.locator('.add-to-cart').nth(1).click();
+            // modal appears 
+            await this.page.locator('.modal-content').waitFor({ state: 'visible' });
+            await this.page.getByText('Continue Shopping').click();
+        }
+    }
+
 
 }

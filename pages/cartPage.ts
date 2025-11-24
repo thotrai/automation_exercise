@@ -41,32 +41,6 @@ export default class CartPage {
         }
     }
 
-    // // Returns all Cart products dynamically
-    // async getCartProducts() {
-    //     const rows = this.cartTable;
-    //     const count = await rows.count();
-    //     const products = [];
-
-    //     for (let i=0; i<count; i++) {
-    //         const row = rows.nth(i);
-
-    //         const name = await row.locator('.cart_description h4').textContent();
-    //         const category = await row.locator('.cart_description p').textContent();
-    //         const price = await row.locator('.cart_price').textContent();
-    //         const quantity = await row.locator('.cart_quantity').textContent();
-    //         const total = await row.locator('.cart_total').textContent();
-
-    //         products.push({
-    //             name: name?.trim() || "",
-    //             category: category?.trim() || "",
-    //             price: price?.trim() || "",
-    //             quantity: quantity?.trim() || "",
-    //             total: total?.trim() || ""
-    //         });
-    //     }
-    //     return products;
-    // }
-
     async expectProductsInCart(expected: CartItem) {
         const row = this.rowByProductName(expected.name);
         await expect(row).toBeVisible();
@@ -77,27 +51,6 @@ export default class CartPage {
         expect(actual.quantity).toBe(expected.quantity);
         expect(actual.total).toContain(expected.total);
     }
-
-    // async expectProductInCart(productId: number) {
-    //     const row = this.page.locator(`#product-${productId}`);
-    //     await expect(row).toBeVisible();
-    // }
-    // // maby it will need changes
-    // async expectRandomProductInCart(productId: number) {
-    //     const row = this.page.locator(`#product-${productId}`);
-    //     await row.scrollIntoViewIfNeeded();
-    //     await expect(row).toBeVisible();
-    // }
-
-    // async verifyCartItemDetails(productId: number, price: string, quantity: string, total: string) {
-    //     const product = this.page.locator(`#product-${productId}`);
-    //     const productPrice = await product.locator('.cart_price').textContent();
-    //     expect(productPrice).toContain(price);
-    //     const productQuantity = await product.locator('.cart_quantity').textContent();
-    //     expect(productQuantity).toContain(quantity);
-    //     const productTotal = await product.locator('.cart_total').textContent();
-    //     expect(productTotal).toContain(total);
-    // }
 
     async clickProccedToCheckout() {
         await this.proceedToCheckoutButton.click();
@@ -111,11 +64,6 @@ export default class CartPage {
         await expect(row).toBeHidden();
     }
 
-    // async expectProductHasBeenRemoved(productId: number) { //
-    //     const row = this.page.locator(`#product-${productId}`);
-    //     await expect(row).toBeHidden();
-    // }
-
     async expectCartIsEmptyToBeVisible() {
         await expect(this.textCartIsEmpty).toBeVisible();
     }
@@ -124,6 +72,19 @@ export default class CartPage {
         const item = this.getCartItem(name);
         const quantity = (await item).quantity;
         expect(quantity).toBe(expectedQuantity);
+    }
+
+    async expectProductsInCartList(expectedProducts: Partial<CartItem>[]) {
+        for (const product of expectedProducts) {
+            const row = this.rowByProductName(product.name!);
+            await expect(row).toBeVisible();
+
+            const actual = await this.getCartItem(product.name!);
+
+            if (product.price) {
+                expect(actual.price).toContain(product.price);
+            }
+        }
     }
 
 }
