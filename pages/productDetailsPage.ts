@@ -6,82 +6,40 @@ export default class ProductDetailsPage {
     readonly name: Locator;
     readonly category: Locator;
     readonly price: Locator;
+    readonly quantity: Locator;
     readonly availability: Locator;
     readonly condition: Locator;
     readonly brand: Locator; 
-    readonly addToCartButton: Locator
+    readonly addToCartButton: Locator;
+    readonly reviewSection: Locator;
+    readonly nameInput: Locator;
+    readonly emailInput: Locator;
+    readonly reviewInput: Locator;
+    readonly submitButton: Locator;
+    readonly successMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.name = page.locator('.product-information h2');
         this.category = page.locator('p:has-text("Category")');
         this.price = page.locator('.product-information span span');
+        this.quantity = page.locator('#quantity');
         this.availability = page.locator('p:has-text("Availability")');
         this.condition = page.locator('p:has-text("Condition")');
         this.brand = page.locator('p:has-text("Brand")');
         this.addToCartButton = page.getByRole('button', {name: 'Add to cart'});
-
+        this.reviewSection = page.getByText('Write Your Review');
+        this.nameInput = page.locator('#name');
+        this.emailInput = page.locator('#email');
+        this.reviewInput = page.locator('#review');
+        this.submitButton = page.locator('#button-review');
+        this.successMessage = page.getByText('Thank you for your review.');
     };
 
     async expectProductDetailsPageToBeVisible(productId: number) {
         await expect(this.page).toHaveURL(`/product_details/${productId}`);
         await expect(this.page.locator('.product-details')).toBeVisible();
     }
-
-    // // getters
-    // async getName() {
-    //     return this.page.locator('.product-information h2').textContent();
-    // }
-
-    // async getCategory() {
-    //     return this.page.locator('//p[contains(text(),"Category")]').textContent();
-    // }
-
-    // async getPrice() {
-    //     return this.page.locator('.product-information span span').textContent();
-    // }
-
-    // async getAvailability() {
-    //     return this.page.locator('//p[b[contains(text(),"Availability")]]').textContent();
-    // }
-
-    // async getCondition() {
-    //     return this.page.locator('//p[b[contains(text(),"Condition")]]').textContent();
-    // }
-
-    // async getBrand() {
-    //     return this.page.locator('//p[b[contains(text(),"Brand")]]').textContent();
-    // }
-
-    // // assertion
-    // async expectName(expected: string) {
-    //     await expect(this.page.locator('.product-information h2')).toHaveText(expected);
-    // }
-
-    // async expectCategory(expected: string) {
-    //     const category = this.page.locator('//p[contains(text(),"Category")]');
-    //     await expect(category).toContainText(expected);
-    // }
-
-    // async expectPrice(expected: string) {
-    //     const price = this.page.locator('.product-information span span');
-    //     await expect(price).toContainText(expected);
-    // }
-
-    // async expectAvailability(expected: string) {
-    //     const availability = this.page.locator('//p[b[contains(text(),"Availability")]]');
-    //     await expect(availability).toContainText(expected);
-    // }
-
-    // async expectCondition(expected: string) {
-    //     const condition = this.page.locator('//p[b[contains(text(),"Condition")]]');
-    //     await expect(condition).toContainText(expected);
-    // }
-
-    // async expectBrand(expected: string) {
-    //     const brand = this.page.locator('//p[b[contains(text(),"Brand")]]');
-    //     await expect(brand).toContainText(expected);
-    // }
 
     async expectProductDetails(product: Product) {
         await expect(this.name).toHaveText(product.name);
@@ -113,21 +71,21 @@ export default class ProductDetailsPage {
     }
 
     async expectReviewToBeVisible() {
-        expect(this.page.getByText('Write Your Review')).toBeVisible();
+        expect(this.reviewSection).toBeVisible();
     }
 
-    async typeReview(name: string, email: string, review: string) {
-        await this.page.locator('#name').type(name);
-        await this.page.locator('#email').type(email);
-        await this.page.locator('#review').type(review);
+    async fillReview(name: string, email: string, review: string) {
+        await this.nameInput.fill(name);
+        await this.emailInput.fill(email);
+        await this.reviewInput.fill(review);
     }
 
     async clickSubmit() {
-        await this.page.click('#button-review');
+        await this.submitButton.click();
     }
 
-    async successMessage() {
-        expect(this.page.getByText('Thank you for your review.')).toBeVisible();
+    async expectSuccessMessageToBeVisible() {
+        expect(this.successMessage).toBeVisible();
     }
 
     async clickAddToCart() {
@@ -135,9 +93,8 @@ export default class ProductDetailsPage {
     }
 
     async increaseQuantity(times: number) {
-        const quantity = this.page.locator('#quantity');
-        await quantity.clear();
-        await quantity.type(`${times}`);
+        await this.quantity.clear();
+        await this.quantity.type(`${times}`);
     }
 
 }
