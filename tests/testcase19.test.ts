@@ -3,12 +3,16 @@ import HomePage from '@pages/homePage';
 import ProductsPage from '@pages/productsPage'; 
 import Sidebar from '@components/sidebar';
 import Header from '@components/header';
+import BrandProductsPage from '@pages/brandProductsPage copy';
 
 test('Test Case 19: View & Cart Brand Products', async ({ page }) => {
     const homePage = new HomePage(page);
     const productsPage = new ProductsPage(page);
     const sidebar = new Sidebar(page);
     const header = new Header(page);
+    const brandProductsPage = new BrandProductsPage(page);
+
+    let brand = 'Polo';
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
@@ -17,11 +21,16 @@ test('Test Case 19: View & Cart Brand Products', async ({ page }) => {
     await productsPage.expectProductsPageToBeVisible();
 
     await sidebar.expectBrandsToBeVisible();
-    // search for Polo
-    await sidebar.clickBrand('Polo');
-    await sidebar.expectBrandHeaderToContain('Brand - Polo Products');
-    // search for Madame
-    await sidebar.clickBrand('Madame');
-    await sidebar.expectBrandHeaderToContain('Brand - Madame Products');
+    
+    await sidebar.clickBrand(brand);
+    await brandProductsPage.expectBrandProductsPageToBeVisible(brand);
+    await brandProductsPage.expectBrandHeaderToContain(brand);
+    await brandProductsPage.expectProductsToBeDisplayed();
+    
+    brand = 'Madame';
+    await sidebar.clickBrand(brand);
+    await brandProductsPage.expectBrandProductsPageToBeVisible(brand);
+    await brandProductsPage.expectBrandHeaderToContain(brand);
+    await brandProductsPage.expectProductsToBeDisplayed();
 
 });

@@ -22,7 +22,7 @@ export default class CartPage {
         await expect(this.cartTable).toBeVisible();
     } 
 
-    // Usage as a Locator
+    // Use it as a Locator
     private rowByProductName(name: string): Locator {
         return this.cartRows.filter({ hasText: name }).first();
     }

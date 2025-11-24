@@ -37,19 +37,9 @@ export default class Sidebar {
         await subcategory.click();
     }
 
-    // categoryProductsPage?
-    async expectCategoryHeaderToContain(text: string) {
-        await expect(this.page.locator('.title.text-center')).toContainText(text);
-    }
-
     async clickBrand(brandName: string) {
         await this.page.click(`//a[@href='/brand_products/${brandName}']`);
         
-    }
-
-    // brandProductsPage?
-    async expectBrandHeaderToContain(text: string) {
-        await expect(this.page.locator('.title.text-center')).toContainText(text);
     }
 
 }
