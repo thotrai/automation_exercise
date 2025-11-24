@@ -17,17 +17,14 @@ test('Test Case 22: Add to cart from Recommended items', async ({ page }) => {
 
     await homePage.expectRecommendedItemsToBeVisible();
     await homePage.freezeCarousel();
-    // Collect product's deatils
-    const selectedProduct = [];
-    const info = await homePage.getRecommendedProductInfo();
-    selectedProduct.push(info);
 
+    const product = await homePage.getRecommendedProductInfo();
     await homePage.clickAddToCartRecommendedProduct();
     
     await cartModal.expectCartModalToBeVisible();
     await cartModal.clickViewCart();
 
     await cartPage.expectCartPageToBeVisible();
-    await cartPage.expectProductsInCart(selectedProduct);
+    await cartPage.expectProductsInCart(product);
 
 });

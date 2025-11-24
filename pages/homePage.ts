@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
+import { CartItem } from "../types/CartItem";
 
 export default class HomePage {
     readonly page: Page;
@@ -58,7 +59,7 @@ export default class HomePage {
     }
 
     // Returns recommended visible product details dynamically
-    async getRecommendedProductInfo(index: number=0) {
+    async getRecommendedProductInfo(index: number=0): Promise<Partial<CartItem>> {
         const card = this.recommendedVisibleItems.locator('.productinfo').nth(index);
 
         const name = await card.locator('p').textContent();
@@ -67,7 +68,7 @@ export default class HomePage {
         return {
             name: name?.trim() || "",
             price: price?.trim() || ""
-        };
+        }
     }
 
     async freezeCarousel() {

@@ -41,16 +41,20 @@ export default class CartPage {
         }
     }
 
-    async expectProductsInCart(expected: CartItem) {
-        const row = this.rowByProductName(expected.name);
+    async expectProductsInCart(expected: Partial<CartItem>) {
+        const row = this.rowByProductName(expected.name!);
         await expect(row).toBeVisible();
 
-        const actual = await this.getCartItem(expected.name);
+        const actual = await this.getCartItem(expected.name!);
 
         expect(actual.price).toContain(expected.price);
-        expect(actual.quantity).toBe(expected.quantity);
-        expect(actual.total).toContain(expected.total);
-    }
+        if (expected.quantity) {
+            expect(actual.quantity).toBe(expected.quantity);
+        }
+        if (expected.total) {
+            expect(actual.total).toContain(expected.total);
+        }
+    }   
 
     async clickProccedToCheckout() {
         await this.proceedToCheckoutButton.click();
