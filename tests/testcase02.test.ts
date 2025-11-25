@@ -5,7 +5,7 @@ import DeleteAccountPage from '@pages/deleteAccountPage';
 import Header from '@components/header';
 
 test('Test Case 2: Login User with correct email and password', async ({ page, user }) => { 
-    const homePage = new HomePage(page); 
+    //const homePage = new HomePage(page); 
     const loginPage = new LoginPage(page); 
     const deleteAccountPage = new DeleteAccountPage(page); 
     const header = new Header(page);

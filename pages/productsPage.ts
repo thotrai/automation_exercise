@@ -28,8 +28,8 @@ export default class ProductsPage {
     }
 
     async expectProductsPageToBeVisible() {
-        expect(this.page).toHaveURL('products');
-        expect(this.productsSection).toBeVisible();
+        await expect(this.page).toHaveURL('products');
+        await expect(this.productsSection).toBeVisible();
     } 
 
     async clickViewProductByName(name: string) {

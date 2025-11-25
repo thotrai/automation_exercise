@@ -12,8 +12,8 @@ export default class AccountPage {
     }
 
     async expectAccountCreated() {
-        expect(this.page).toHaveURL('account_created');
-        expect(this.textAccountCreated).toBeVisible();
+        await expect(this.page).toHaveURL('account_created');
+        await expect(this.textAccountCreated).toBeVisible();
     }
 
     async clickContinue() {

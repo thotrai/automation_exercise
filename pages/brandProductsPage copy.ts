@@ -28,7 +28,7 @@ export default class BrandProductsPage {
     // Sanity check
     async expectProductsToBeDisplayed() {
         const count = await this.card.count();
-        expect(count).toBeGreaterThan(0);
+        await expect(count).toBeGreaterThan(0);
 
         for (let i = 0; i < count; i++) {
             await expect(this.image.nth(i)).toBeVisible();

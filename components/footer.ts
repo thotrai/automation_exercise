@@ -17,7 +17,7 @@ export default class Footer {
     };
 
     async expectSubscriptionToBeVisible() {
-        expect(this.page.getByText('Subscription')).toBeVisible();
+        await expect(this.page.getByText('Subscription')).toBeVisible();
     }
 
     async scrollToFooter() {
@@ -30,7 +30,7 @@ export default class Footer {
     }
 
     async expectSubscriptionMesssageToBeVisible() {
-        expect(this.subscribeMessage).toBeVisible();
+        await expect(this.subscribeMessage).toBeVisible();
     }
 
 }

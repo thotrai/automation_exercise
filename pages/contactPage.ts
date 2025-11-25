@@ -48,6 +48,6 @@ export default class ContactPage {
     }
 
     async expectSuccessMessageToBeVisible() {
-        expect(this.successMessage).toBeVisible();
+        await expect(this.successMessage).toBeVisible();
     }
 }

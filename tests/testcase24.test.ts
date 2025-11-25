@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { Address } from '../types/Address';
+import { test } from '@playwright/test';
 import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
@@ -12,6 +11,10 @@ import DeleteAccountPage from '@pages/deleteAccountPage';
 import PaymentPage from '@pages/paymentPage';
 import PaymentDonePage from '@pages/paymentDonePage';
 import Header from '@components/header';
+import { users } from '@test-data/users';
+import { addresses } from '@test-data/addresses';
+import { products } from '@test-data/products';
+import { creditCards } from '@test-data/creditCards';
 
 test('Test Case 24: Download Invoice after purchase order', async ({ page }) => {
     const homePage = new HomePage(page);
@@ -27,25 +30,15 @@ test('Test Case 24: Download Invoice after purchase order', async ({ page }) => 
     const paymentDonePage = new PaymentDonePage(page);
     const header = new Header(page);
 
-    const addressData: Address = {
-        firstName: 'Test',
-        lastName: 'Case',
-        company: 'Playwright',
-        address1: 'Random Street 86',
-        address2: 'Suite 10',
-        city: 'California',
-        state: 'Miami',
-        zipcode: '12345',
-        country: 'United States',
-        mobileNumber: '1234567890',
-    };
+    const user = users.validUser;
+    const address = addresses.address1;
+    const product = products.blueTop;
+    const creditCard = creditCards.visa;
+    const message = "This is a message for my order."
 
     await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
-
-    // Stylish Dress
-    await homePage.hoverOnProduct(4);
-    await homePage.clickAddToCartProduct(4); 
+    await homePage.addProductToCartByName(product.name); 
     
     await cartModal.clickViewCart();
 
@@ -56,36 +49,35 @@ test('Test Case 24: Download Invoice after purchase order', async ({ page }) => 
     await checkoutModal.clickRegisterLogin();
 
     await loginPage.expectLoginPageToBeVisible();
-    await loginPage.typeNameAndEmail("UserTC24c","usertc24c@qmail.com"); // update
+    await loginPage.fillNameAndEmail(user.name, user.email); 
     await loginPage.clickSignupButton();
 
-    await signupPage.expectLoginPageToBeVisible();
-    await signupPage.fillAccountInformation("Test123@", "23", "10", "2000");
+    await signupPage.expectSignupPageToBeVisible();
+    await signupPage.selectTitle();
+    await signupPage.fillPassword(user.password); 
+    await signupPage.selectBirthDay(user.day, user.month, user.year); 
     await signupPage.checkNewsletterAndOffers();
-    await signupPage.fillAddressInformation("User", "Testcase", "Street", "United States", "California", "Miami", "99999", "1234567890");
+    await signupPage.fillAddressInformation(address);
     await signupPage.clickCreateAccount();
 
     await accountPage.expectAccountCreated();
     await accountPage.clickContinue();
 
-    await header.expectLoggedInAs("User");
+    await header.expectLoggedInAs(user.name);
     await header.clickCart();
 
     await cartPage.expectCartPageToBeVisible();
     await cartPage.clickProccedToCheckout();    
 
     await checkoutPage.expectCheckoutPageToBeVisibe();
-    await checkoutPage.expectAddressDetailsToBeVisible();
+    await checkoutPage.expectAddressSectionToBeVisible();
     await checkoutPage.expectReviewYourOrderToBeVisible();
     await checkoutPage.expectOrderMessageBeVisible();
-    await checkoutPage.typeMessage("This is a message for my order!");
+    await checkoutPage.typeOrderMessage(message);
     await checkoutPage.clickPlaceOrder();
 
     await paymentPage.expectPaymentPageToBeVisibe();
-    await paymentPage.typeNameOnCard("User Testcase");
-    await paymentPage.typeCardNumber("6011208800050000");
-    await paymentPage.typeCVC("333");
-    await paymentPage.typeExpirationDate("10", "2028");
+    await paymentPage.fillCreditCardInformation(creditCard.name, creditCard.number, creditCard.cvc, creditCard.month, creditCard.year);
     await paymentPage.clickPayAndConfirmOrder();
     //await paymentPage.expectSuccessMessage();
 

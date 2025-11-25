@@ -34,7 +34,7 @@ export default class HomePage {
     async navigate() {
         await this.page.goto('/');
         await this.consentDialogIfVisible();
-        await expect(this.page).toHaveTitle('Automation Exercise');
+        await expect(this.page.locator('.features_items')).toBeVisible();
     }
 
     async expectHomePageToBeVisible() {
@@ -51,7 +51,7 @@ export default class HomePage {
     }
 
     async expectFullFledgedTextToBeVisible() {
-        expect(this.fullFledgedText.first()).toBeVisible();
+        await expect(this.fullFledgedText.first()).toBeVisible();
     }
 
     async expectRecommendedItemsToBeVisible() {

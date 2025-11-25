@@ -1,5 +1,4 @@
-import { test } from '@playwright/test';
-import { Address } from '../types/Address';
+import { test } from '@fixtures/userFixture';
 import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
@@ -9,9 +8,10 @@ import SignupPage from '@pages/signupPage';
 import AccountPage from '@pages/accountPage';
 import DeleteAccountPage from '@pages/deleteAccountPage';
 import Header from '@components/header';
-import { users } from '@test-data/users';
+import { products } from '@test-data/products';
+import { addresses } from '@test-data/addresses';
 
-test('Test Case 23: Verify address details in checkout page', async ({ page }) => {
+test('Test Case 23: Verify address details in checkout page', async ({ page, user }) => {
     const homePage = new HomePage(page);
     const cartModal = new CartModal(page);
     const cartPage = new CartPage(page);
@@ -22,44 +22,13 @@ test('Test Case 23: Verify address details in checkout page', async ({ page }) =
     const deleteAccountPage = new DeleteAccountPage(page);
     const header = new Header(page);
 
-    const user = users.validUser;
+    const product = products.blueTop;
 
-    const addressData: Address = {
-        firstName: 'Test',
-        lastName: 'Case',
-        company: '',
-        address1: 'Random Street 86',
-        address2: 'Suite 10',
-        city: 'California',
-        state: 'Miami',
-        zipcode: '12345',
-        country: 'United States',
-        mobileNumber: '1234567890',
-    };
-
-    await homePage.navigate();
+    await loginPage.fillEmailAndPassword(user.email, user.password); 
+    await loginPage.clickLoginButton();
+    
     await homePage.expectHomePageToBeVisible();
-    await header.clickSignupLogin();
-
-    await loginPage.expectLoginPageToBeVisible();
-    await loginPage.fillNameAndEmail(user.name, user.email); 
-    await loginPage.clickSignupButton();
-
-    await signupPage.expectSignupPageToBeVisible();
-    await signupPage.selectTitle();
-    await signupPage.fillPassword(user.password);
-    await signupPage.selectBirthDay(user.day, user.month, user.year);
-    await signupPage.checkNewsletterAndOffers();
-    await signupPage.fillAddressInformation(addressData);
-    const addressInformations = await signupPage.getAddressInfo();
-    await signupPage.clickCreateAccount();
-
-    await accountPage.expectAccountCreated();
-    await accountPage.clickContinue();
-
-    await header.expectLoggedInAs(user.name);
-    // Blue Top
-    await homePage.addProductToCart(); 
+    await homePage.addProductToCartByName(product.name);
     await cartModal.expectCartModalToBeVisible();
     await cartModal.clickViewCart();
 
@@ -68,8 +37,8 @@ test('Test Case 23: Verify address details in checkout page', async ({ page }) =
 
     await checkoutPage.expectCheckoutPageToBeVisibe();
     await checkoutPage.expectAddressSectionToBeVisible();
-    await checkoutPage.expectDeliveryAddressToMatch(addressInformations);
-    await checkoutPage.expectInvoiceAddressToMatch(addressInformations);
+    await checkoutPage.expectDeliveryAddressToMatch(addresses.address1);
+    await checkoutPage.expectInvoiceAddressToMatch(addresses.address1);
 
     await header.clickDeleteAccount(); 
 

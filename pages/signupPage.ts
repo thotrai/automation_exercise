@@ -3,6 +3,7 @@ import { Address } from "../types/Address";
 
 export default class SignupPage {
     readonly page: Page;
+    readonly loginForm: Locator;
     readonly titleMrRadioButton: Locator;
     readonly firstNameInput: Locator;
     readonly lastNameInput: Locator;
@@ -21,6 +22,7 @@ export default class SignupPage {
 
     constructor(page: Page) {
         this.page = page;
+        this.loginForm = page.locator('.login-form');
         this.titleMrRadioButton = page.locator('#id_gender1');
         this.firstNameInput = page.locator('#first_name');
         this.lastNameInput = page.locator('#last_name');
@@ -40,7 +42,7 @@ export default class SignupPage {
     
     async expectSignupPageToBeVisible() {
         await expect(this.page).toHaveURL('signup');
-        await expect(this.page.locator(`//b[normalize-space()='Enter Account Information']`)).toBeVisible();
+        await expect(this.loginForm).toBeVisible();
     }
 
 

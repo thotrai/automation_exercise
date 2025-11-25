@@ -11,7 +11,7 @@ export default class CartPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.cartTable = page.locator('#cart_info_table');
+        this.cartTable = page.locator('#cart_info');
         this.cartRows = page.locator('#cart_info_table tbody tr');
         this.proceedToCheckoutButton = this.page.getByText('Proceed To Checkout');
         this.textCartIsEmpty = this.page.getByText('Cart is empty! Click here to buy products.');

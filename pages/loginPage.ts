@@ -47,11 +47,11 @@ export default class LoginPage {
     }
 
     async expectErrorInvalidEmailOrPasswordToBeVisible() {
-        expect(this.errorInvalidCredentials).toBeVisible();
+        await expect(this.errorInvalidCredentials).toBeVisible();
     }
 
     async expectErrorExistingEmailToBeVisible() {
-        expect(this.errorExistingEmail).toBeVisible();
+        await expect(this.errorExistingEmail).toBeVisible();
     }
 
 }

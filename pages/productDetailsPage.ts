@@ -71,7 +71,7 @@ export default class ProductDetailsPage {
     }
 
     async expectReviewToBeVisible() {
-        expect(this.reviewSection).toBeVisible();
+        await expect(this.reviewSection).toBeVisible();
     }
 
     async fillReview(name: string, email: string, review: string) {
@@ -85,7 +85,7 @@ export default class ProductDetailsPage {
     }
 
     async expectSuccessMessageToBeVisible() {
-        expect(this.successMessage).toBeVisible();
+        await expect(this.successMessage).toBeVisible();
     }
 
     async clickAddToCart() {
