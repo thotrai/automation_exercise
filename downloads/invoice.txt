@@ -1,1 +1,1 @@
-Hi Test Case, Your total purchase amount is 0. Thank you
+Hi Test Case, Your total purchase amount is 500. Thank you

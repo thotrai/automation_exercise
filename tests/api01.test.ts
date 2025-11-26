@@ -13,6 +13,10 @@ test('API 1: Get All Products List', async ({ request }) => {
     expect(Array.isArray(json.products)).toBeTruthy();
     expect(json.products.length).toBeGreaterThan(0);
 
+    // Validate the number of products
+    const count = json.products.length; 
+    expect(count).toEqual(34);
+
     // Validate first product fields
     const first = json.products[0];
     expect(first).toHaveProperty('id');
