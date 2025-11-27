@@ -16,5 +16,4 @@ test('API 2: POST To All Products List', async ({ request }) => {
     expect(json.responseCode).toBe(405);
     expect(json.message).toBe('This request method is not supported.');
     
-    
 });
