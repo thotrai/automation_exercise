@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import HomePage from '@pages/homePage'; 
 import LoginPage from '@pages/loginPage'; 
 import Header from '@components/header';
-import { users } from '../test-data/users';
+import { users } from '../../test-data/users';
 
 test('Test Case 3: Login User with incorrect email and password', async ({ page }) => { 
     const homePage = new HomePage(page); 

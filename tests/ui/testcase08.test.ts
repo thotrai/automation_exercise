@@ -3,7 +3,7 @@ import HomePage from '@pages/homePage';
 import ProductsPage from '@pages/productsPage'; 
 import ProductDetailsPage from '@pages/productDetailsPage';
 import Header from '@components/header';
-import { products } from '../test-data/products';
+import { products } from '../../test-data/products';
 
 test('Test Case 8: Verify All Products and product detail page', async ({ page }) => {
     const homePage = new HomePage(page);

@@ -5,8 +5,8 @@ import SignupPage from '@pages/signupPage';
 import AccountPage from '@pages/accountPage'; 
 import DeleteAccountPage from '@pages/deleteAccountPage';
 import Header from '@components/header';
-import { users } from '../test-data/users';
-import { addresses } from '../test-data/addresses';
+import { users } from '../../test-data/users';
+import { addresses } from '../../test-data/addresses';
 
 test('Test Case 1: Register User', async ({ page }) => { 
   const homePage = new HomePage(page); 

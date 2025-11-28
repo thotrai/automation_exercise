@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import HomePage from '@pages/homePage'; 
 import ContactPage from '@pages/contactPage'; 
 import Header from '@components/header';
-import { users } from '../test-data/users';
+import { users } from '../../test-data/users';
 
 test('Test Case 6: Contact Us Form', async ({ page }) => { 
     const homePage = new HomePage(page); 

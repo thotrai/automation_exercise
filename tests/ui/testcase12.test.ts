@@ -4,7 +4,7 @@ import ProductsPage from '@pages/productsPage';
 import CartPage from '@pages/cartPage';
 import CartModal from '@components/cartModal';
 import Header from '@components/header';
-import { products } from '../test-data/products';
+import { products } from '../../test-data/products';
 
 test('Test Case 12: Add Products in Cart', async ({ page }) => {
     const homePage = new HomePage(page);

@@ -3,7 +3,7 @@ import HomePage from '@pages/homePage';
 import CartPage from '@pages/cartPage';
 import Footer from '@components/footer';
 import Header from '@components/header';
-import { users } from '../test-data/users'; 
+import { users } from '../../test-data/users'; 
 
 test('Test Case 11: Verify Subscription in Cart page', async ({ page }) => {
     const homePage = new HomePage(page);

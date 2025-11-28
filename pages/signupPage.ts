@@ -23,7 +23,7 @@ export default class SignupPage {
     constructor(page: Page) {
         this.page = page;
         this.loginForm = page.locator('.login-form');
-        this.titleMrRadioButton = page.locator('#id_gender1');
+        this.titleMrRadioButton = page.getByLabel('Mr.'); 
         this.firstNameInput = page.locator('#first_name');
         this.lastNameInput = page.locator('#last_name');
         this.passwordInput = page.locator('#password');
