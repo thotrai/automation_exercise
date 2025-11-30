@@ -1,4 +1,4 @@
-import { test } from '@fixtures/userFixture';
+import { test } from '@fixtures/apiUserFixture';
 import HomePage from '@pages/homePage';
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
@@ -11,7 +11,6 @@ import Header from '@components/header';
 import { products } from '@test-data/products';
 import { creditCards } from '@test-data/creditCards'
 
-// Using fixture
 test('Test Case 16: Place Order: Login before Checkout', async ({ page, user }) => {
     const homePage = new HomePage(page);
     const cartModal = new CartModal(page);
@@ -26,6 +25,10 @@ test('Test Case 16: Place Order: Login before Checkout', async ({ page, user }) 
     const product = products.blueTop;
     const creditCard = creditCards.visa;
     const message = 'This is a message for my order!';
+
+    await homePage.navigate();
+    await homePage.expectHomePageToBeVisible();
+    await header.clickSignupLogin();
 
     await loginPage.expectLoginPageToBeVisible();
     await loginPage.fillEmailAndPassword(user.email,user.password); 
@@ -50,8 +53,8 @@ test('Test Case 16: Place Order: Login before Checkout', async ({ page, user }) 
     await paymentPage.expectPaymentPageToBeVisibe();
     await paymentPage.fillCreditCardInformation(creditCard.name, creditCard.number, creditCard.cvc, creditCard.month, creditCard.year);
     await paymentPage.clickPayAndConfirmOrder();
-    //await paymentPage.expectSuccessMessage();
-
+    // await paymentPage.expectSuccessMessageToBeVisisble();
+    
     await paymentDonePage.expectPaymentDonePageToBeVisible();
     await paymentDonePage.expectCongratulationsMessageToBeVisible();
     await paymentDonePage.clickContinue();

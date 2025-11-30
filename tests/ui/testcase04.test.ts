@@ -1,4 +1,4 @@
-import { test } from '@fixtures/userFixture'; 
+import { test } from '@fixtures/apiUserFixture'; 
 import HomePage from '@pages/homePage'; 
 import LoginPage from '@pages/loginPage'; 
 import Header from '@components/header';
@@ -8,11 +8,15 @@ test('Test Case 4: Logout User', async ({ page,  user }) => {
     const loginPage = new LoginPage(page); 
     const header = new Header(page);
 
+    await homePage.navigate();
+    await homePage.expectHomePageToBeVisible();
+    await header.clickSignupLogin();
+
     await loginPage.expectLoginPageToBeVisible();
-    await loginPage.fillEmailAndPassword(user.email, user.password); //
+    await loginPage.fillEmailAndPassword(user.email, user.password); 
     await loginPage.clickLoginButton();
 
-    await header.expectLoggedInAs(user.name); //
+    await header.expectLoggedInAs(user.name); 
     await header.clickLogout();
 
     await loginPage.expectLoginPageToBeVisible();

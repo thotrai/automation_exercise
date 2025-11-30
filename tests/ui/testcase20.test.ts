@@ -1,4 +1,4 @@
-import { test } from '@fixtures/userFixture'; 
+import { test } from '@fixtures/apiUserFixture'; 
 import HomePage from '@pages/homePage'; 
 import ProductsPage from '@pages/productsPage'; 
 import Header from '@components/header';
@@ -14,7 +14,7 @@ test('Test Case 20: Search Products and Verify Cart After Login', async ({ page,
 
     const searchedProducts = 'Jeans';
 
-    await header.clickHome();
+    await homePage.navigate();
     await homePage.expectHomePageToBeVisible();
     await header.clickProducts();
 

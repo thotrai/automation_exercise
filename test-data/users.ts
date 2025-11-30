@@ -1,20 +1,23 @@
 import { User } from '../types/User';
+import { generateRandomUser } from '@utils/helperFunctions';
+
+const randomUser = generateRandomUser();
 
 export const users = {
   validUser: {
-    name: 'Test Case',
-    email: 'testcase@mail.com',
-    password: 'Password123@',
-    day: '12',
-    month: '12',
-    year: '1990'
+    name: randomUser.name,
+    email: randomUser.email,
+    password: 'Test123@',
+    birth_date: '12',
+    birth_month: '12',
+    birth_year: '1990'
   },
   invalidUser: {
     name: '',
-    email: 'testcase03@mail.com',
+    email: 'invalidUser@mail.com',
     password: 'Test123@',
-    day: '',
-    month: '',
-    year: ''
+    birth_date: '',
+    birth_month: '',
+    birth_year: ''
   }
 } satisfies Record<string, User>;

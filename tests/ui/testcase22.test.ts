@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'; 
+import { test } from '@playwright/test'; 
 import HomePage from '@pages/homePage'; 
 import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';

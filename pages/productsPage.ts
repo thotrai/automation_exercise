@@ -69,6 +69,7 @@ export default class ProductsPage {
     async addProductToCartByName(name: string) {
         const card = this.productCartByName(name);
         await expect(card).toBeVisible();
+        await card.scrollIntoViewIfNeeded();
         await card.hover();
         await card.getByText('Add to cart').nth(1).click();
 

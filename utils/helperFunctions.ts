@@ -1,8 +1,12 @@
 import { User } from '../types/User';
 
-export function generateRandomEmail(): string {
-    const randomString = Math.random().toString(36).substring(2, 12);
-    return `${randomString}@gmail.com`;
+export function generateRandomUser(): User {
+    const timestamp = Date.now();
+    return {
+      name: `User${timestamp}`,
+      email: `user${timestamp}@mail.com`,
+      password: 'Test123@'
+    }
 }
 
 export function generateStrongPassword(length: number=12): string {

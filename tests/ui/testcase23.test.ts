@@ -4,8 +4,6 @@ import CartModal from '@components/cartModal';
 import CartPage from '@pages/cartPage';
 import CheckoutPage from '@pages/checkoutPage';
 import LoginPage from '@pages/loginPage';
-import SignupPage from '@pages/signupPage';
-import AccountPage from '@pages/accountPage';
 import DeleteAccountPage from '@pages/deleteAccountPage';
 import Header from '@components/header';
 import { products } from '@test-data/products';
@@ -17,8 +15,6 @@ test('Test Case 23: Verify address details in checkout page', async ({ page, use
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
     const loginPage = new LoginPage(page);
-    const signupPage = new SignupPage(page);
-    const accountPage = new AccountPage(page);
     const deleteAccountPage = new DeleteAccountPage(page);
     const header = new Header(page);
 

@@ -3,9 +3,9 @@ export type User = {
   email: string;
   password: string;
   title?: string;
-  birth_date: string;
-  birth_month: string;
-  birth_year: string;
+  birth_date?: string;
+  birth_month?: string;
+  birth_year?: string;
   firstname?: string;
   lastname?: string;
   company?: string;
