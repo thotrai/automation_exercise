@@ -2,15 +2,16 @@ import { test, expect } from "@playwright/test";
 
 test('API 11: POST To Create/Register User Account', async ({ request }) => {
     const timestamp = Date.now();
-    const email = `testuser${timestamp}@mail.com`;
+    const name = `User${timestamp}`;
+    const email = `user${timestamp}@mail.com`;
 
     const response = await request.post('https://automationexercise.com/api/createAccount', {
         form: {
-            name: 'TestUser',
+            name: name,
             email: email, 
             password: 'Test123@', 
             title: 'Mr', 
-            birth_date: '10', 
+            birth_date: '15', 
             birth_month: '10', 
             birth_year: '1990', 
             firstname: 'Test', 

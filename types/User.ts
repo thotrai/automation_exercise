@@ -2,12 +2,12 @@ export type User = {
   name: string;
   email: string;
   password: string;
-  title?: string,
-  day: string;
-  month: string;
-  year: string;
-  firstName?: string;
-  lastName?: string;
+  title?: string;
+  birth_date: string;
+  birth_month: string;
+  birth_year: string;
+  firstname?: string;
+  lastname?: string;
   company?: string;
   address1?: string;
   address2?: string;
@@ -15,5 +15,5 @@ export type User = {
   state?: string;
   city?: string;
   zipcode?: string;
-  mobileNumber?: string;
+  mobile_number?: string;
 };

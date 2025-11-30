@@ -1,10 +1,12 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@fixtures/apiUserFixture";
+import { expect } from '@playwright/test';
 
-test('API 7: POST To Verify Login with valid details', async ({ request }) => {
+// Using fixture to create a new user
+test('API 7: POST To Verify Login with valid details', async ({ request, user }) => {
     const response = await request.post('https://automationexercise.com/api/verifyLogin', {
         form: {
-            email: 'apitesting@mail.com',
-            password: 'Test123@'
+            email: user.email,
+            password: user.password
         }
     })
     const json = await response.json();

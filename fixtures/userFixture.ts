@@ -35,7 +35,7 @@ export const test = base.extend<Fixtures> ({
         await signupPage.expectSignupPageToBeVisible();
         await signupPage.selectTitle();
         await signupPage.fillPassword(user.password);
-        await signupPage.selectBirthDay(user.day, user.month, user.year);
+        await signupPage.selectBirthDay(user.birth_date, user.birth_month, user.birth_year);
         await signupPage.checkNewsletterAndOffers();
         await signupPage.fillAddressInformation(address);
         await signupPage.clickCreateAccount();

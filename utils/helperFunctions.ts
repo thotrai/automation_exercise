@@ -35,11 +35,11 @@ export function createRandomUser(): User {
     email: `user${timestamp}@mail.com`,
     password: 'Test123@', 
     title: 'Mr', 
-    day: '10', 
-    month: '10', 
-    year: '1990', 
-    firstName: 'Test', 
-    lastName: 'User', 
+    birth_date: '15', 
+    birth_month: '10', 
+    birth_year: '1990', 
+    firstname: 'Test', 
+    lastname: 'User', 
     company: 'Google', 
     address1: 'Street 86', 
     address2: 'Suite 10', 
@@ -47,6 +47,6 @@ export function createRandomUser(): User {
     zipcode: '12345', 
     state: 'California', 
     city: 'Miami', 
-    mobileNumber: '1234567890' 
+    mobile_number: '1234567890' 
   };
 }

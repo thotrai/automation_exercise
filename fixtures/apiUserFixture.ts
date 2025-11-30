@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import { expect, test as base } from '@playwright/test';
 import { User } from '../types/User';
 import { createRandomUser } from '@utils/helperFunctions';
 
@@ -13,9 +13,13 @@ export const test = base.extend<Fixtures> ({
         const response = await request.post('https://automationexercise.com/api/createAccount', {
             form: user
         });
+        const json = await response.json();
+        // console.log(json);
     
-        if (response.status() !== 201) {
-            throw new Error(`Failed to create user: ${await response.text()}`);
+        expect(response.status()).toBe(200);
+
+        if (json.responseCode !== 201) {
+            throw new Error(`Failed to create user!`);
         }
 
         await use(user);
