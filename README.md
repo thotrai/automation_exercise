@@ -1,11 +1,12 @@
 <h1>🎭 Playwright Automation Framework</h1>
 
 <h2>🌐 Automation Exercise</h2>
-<img>
+<image src="./Screenshot_AutomationExercise.png" />
 
 <h2>📌 Overview</h2>
 <p>This project is a complete test automation framework built using Playwright and TypeScript with a clean Page Object Model (POM) architecture.
-It covers end-to-end UI and REST API tests for a full-featured demo site designed for automation practice. Website URL: https://automationexercise.com/
+It covers end-to-end UI and REST API tests for a full-featured demo site designed for automation practice. <br />
+Website URL: https://automationexercise.com/
 </p>
 
 <h2>🧪 Test Coverage</h2>
@@ -39,7 +40,10 @@ Covered endpoints include:
 </ul>
 </p>
 
-<h3>Technologies</h3>
+<h3>📊 Report</h3>
+<image src="./Screenshot_AllureReport.png" />
+
+<h3>🛠️ Technologies</h3>
 <p> 
   <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge" /> 
   <img src="https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white&style=for-the-badge" /> 
