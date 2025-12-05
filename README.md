@@ -56,11 +56,123 @@ Covered endpoints include:
 This is an example of how you may give instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.
 </p>
 <h3>📦 Prerequisites</h3>
-<h3>📥 Installation</h3>
-<h3>▶️ Execution</h3>
-<h3>📊 Reporting</h3>
+<p>
+Before you begin, ensure you have the following installed:
+</p>
+<b>Node.js</b>
 <pre>
-    <code>
-        Whatever code you want to show
-    </code>
+<code>
+node -v
+</code>
+</pre>
+<p>If missing, download from: https://nodejs.org</p>
+<b>npm</b>
+<p>(npm is installed automatically with Node.js)</p>
+<pre>
+<code>
+npm -v
+</code>
+</pre>
+<b>Git</b>
+<pre>
+<code>
+git --version
+</code>
+</pre>
+<b>Allure Report</b>
+<p>You must install Allure CLI globally:</p>
+<b>Windows (Scoop)</b>
+<pre>
+<code>
+brew install allure
+</code>
+</pre>
+<b>macOS (Homebrew)</b>
+<pre>
+<code>
+scoop install allure
+</code>
+</pre>
+<b>Linux</b>
+<pre>
+<code>
+sudo apt-add-repository ppa:qameta/allure
+sudo apt update
+sudo apt install allure
+</code>
+</pre>
+
+<h3>📥 Installation</h3>
+<b>1. Clone the repository</b>
+<pre>
+<code>
+git clone https://github.com/thotrai/automation_exercise.git
+</code>
+</pre>
+<b>2. Navigate into the project</b>
+<pre>
+<code>
+cd automation_exercise
+</code>
+</pre>
+<b>3. Install project dependencies</b>
+<pre>
+<code>
+npm install
+</code>
+</pre>
+<b>4. Install Playwright browsers</b>
+<pre>
+<code>
+npx playwright install
+</code>
+</pre>
+<p>(Optional but recommended — install OS dependencies)</p>
+<pre>
+<code>
+npx playwright install-deps
+</code>
+</pre>
+
+<h3>▶️ Execution</h3>
+<b>Run all tests (default config)</b>
+<pre>
+<code>
+npx playwright test
+</code>
+</pre>
+<b>Run all UI tests</b>
+<pre>
+<code>
+npx playwright test tests/ui
+</code>
+</pre>
+<b>Run all API tests</b>
+<pre>
+<code>
+npx playwright test tests/api
+</code>
+</pre>
+<b>Run a single test</b>
+<pre>
+<code>
+npx playwright test tests/ui/testcase16.test.ts
+</code>
+</pre>
+<h3>📊 Reporting</h3>
+<p>
+Generate Allure Results (already done automatically during test run)
+Your 'allure-results/' folder is created after test execution.
+</p>
+<b>Generate the Allure report</b>
+<pre>
+<code>
+allure generate allure-results -o allure-report --clean
+</code>
+</pre>
+<b>Open Allure report</b>
+<pre>
+<code>
+allure open allure-report
+</code>
 </pre>
