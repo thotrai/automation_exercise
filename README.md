@@ -84,13 +84,13 @@ git --version
 <b>Windows (Scoop)</b>
 <pre>
 <code>
-brew install allure
+scoop install allure
 </code>
 </pre>
 <b>macOS (Homebrew)</b>
 <pre>
 <code>
-scoop install allure
+brew install allure
 </code>
 </pre>
 <b>Linux</b>
@@ -161,7 +161,7 @@ npx playwright test tests/ui/testcase16.test.ts
 </pre>
 <h3>📊 Reporting</h3>
 <p>
-Generate Allure Results (already done automatically during test run)
+Generate Allure Results (already done automatically during test run). <br />
 Your 'allure-results/' folder is created after test execution.
 </p>
 <b>Generate the Allure report</b>
